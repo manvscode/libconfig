@@ -1,6 +1,6 @@
 
 # Add new files in alphabetical order. Thanks.
-libconfig_src = astar.c 
+libconfig_src = config.c config-lexer.c config-parser.c
 
 # Add new files in alphabetical order. Thanks.
 libconfig_headers = config.h 

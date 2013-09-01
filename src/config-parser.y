@@ -53,11 +53,16 @@ statement : TOK_NAME '=' TOK_STRING        { printf( "%30s := %s \n", $1, $3 ); 
           ;
 %%
 
-
+/*
 int main( int argc, char* argv[] )
 {
-	config_parse();
+	config_in = fopen( argv[1], "r" );
+
+	do {
+		config_parse();
+	} while( !feof(config_in) );
+
 	return 0;
 }
-
+*/
 

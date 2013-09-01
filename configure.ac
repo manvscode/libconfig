@@ -25,7 +25,7 @@ DFLAGS="-D DEBUG "
 CFLAGS="-std=c99 -Wall -pedantic -g -ggdb -O0 $DFLAGS -I/usr/local/include"
 LDFLAGS="-lcollections"
 
-AM_PROG_AR
+#AM_PROG_AR
 LT_INIT([shared static])
 AC_PROG_LIBTOOL
 AM_PROG_LIBTOOL

@@ -8,7 +8,9 @@ struct config;
 typedef struct config config_t;
 
 
-variant_t* config_find( config_t* p_config, const char* key );
+config_t*  config_create  ( const char* filename );
+void       config_destroy ( config_t** p_config );
+variant_t* config_find    ( config_t* p_config, const char* key );
 
 
 #define config_get( p_config, key )  _Generic( variant_type(config_find(p_config, key)), \

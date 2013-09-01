@@ -1,5 +1,7 @@
 #include <libcollections/tree-map.h>
 #include <libcollections/variant.h>
+#include "config-lexer.h"
+#include "config-parser.h"
 
 
 struct config {
@@ -47,9 +49,26 @@ config_t* config_create( const char* filename )
 						(tree_map_element_function) group_item_destroy,
 						(tree_map_compare_function) group_item_compare,
 						malloc, free );
+
+		config_in = fopen( argv[1], "r" );
+
+		do {
+			config_parse( );
+		} while( !feof(config_in) );
 	}
 
 	return p_config;
+}
+
+void config_destroy( config_t** p_config )
+{
+	if( *p_config )
+	{
+		tree_map_destroy( &(*p_config)->groups );
+
+		free( *p_config );
+		*p_config = NULL;
+	}
 }
 
 

@@ -1,0 +1,10 @@
+#AM_CFLAGS = -std=c99 -Wall -pedantic -O3 -I$(top_builddir)/src/ -I/usr/local/include/ -L$(top_builddir)/lib/  -L/usr/local/lib
+AM_CFLAGS = -std=c99 -pg -g -ggdb -O0 -I$(top_builddir)/src/ -I/usr/local/include/ -L$(top_builddir)/lib/  -L/usr/local/lib
+
+bin_PROGRAMS = \
+$(top_builddir)/bin/test
+
+__top_builddir__bin_test_SOURCES      = test.c
+__top_builddir__bin_test_LDADD        = -lcollections
+__top_builddir__bin_test_LDFLAGS      = -lcollections
+
