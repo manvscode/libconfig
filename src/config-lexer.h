@@ -14,10 +14,12 @@
 typedef void* yyscan_t;
 #endif
 #include "config-parser.h"
+#include "config-private.h"
+#include "config.h"
 
 
 
-#line 21 "config-lexer.h"
+#line 23 "config-lexer.h"
 
 #define  YY_INT_ALIGNED short int
 
@@ -349,9 +351,9 @@ extern int config_lex \
 #undef YY_DECL
 #endif
 
-#line 84 "config-lexer.l"
+#line 75 "config-lexer.l"
 
 
-#line 356 "config-lexer.h"
+#line 358 "config-lexer.h"
 #undef config_IN_HEADER
 #endif /* config_HEADER_H */

@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <assert.h>
 #include <libcollections/tree-map.h>
 #include <libcollections/variant.h>
 #include "config-lexer.h"
@@ -9,13 +10,12 @@
 
 
 
-struct config {
-	tree_map_t groups;
 
+struct config {
+	tree_map_t* groups;
+	unsigned int line;
 };
 
-static boolean group_item_destroy ( const char* *p_key, variant_t *p_value );
-static int     group_item_compare ( const char* p_key_left, const char* p_key_right );
 
 
 boolean group_item_destroy( const char* *p_key, variant_t *p_value )
@@ -51,16 +51,19 @@ config_t* config_create( const char* filename )
 
 	if( p_config )
 	{
-		tree_map_create( &p_config->groups,
+		#if 0
+		p_config->groups = tree_map_create_ex(
 						(tree_map_element_function) group_item_destroy,
 						(tree_map_compare_function) group_item_compare,
 						malloc, free );
-
+		#endif
+		p_config->line = 1;
 
 		FILE* file = fopen( filename, "r" );
 		yyscan_t scanner;
 		config_lex_init( &scanner );
 		config_set_in( file, scanner );
+		config_set_extra( p_config, scanner );
 		#if 0
 		config_set_debug( 1, scanner );
 		config_debug = 1;
@@ -80,18 +83,42 @@ void config_destroy( config_t** p_config )
 {
 	if( *p_config )
 	{
-		tree_map_destroy( &(*p_config)->groups );
+		tree_map_destroy( (*p_config)->groups );
+		free( (*p_config)->groups );
 
 		free( *p_config );
 		*p_config = NULL;
 	}
 }
 
+tree_map_t* config_main_group( const config_t* p_config )
+{
+	assert( p_config );
+	return p_config->groups;
+}
+
+void config_set_main_group( config_t* p_config, const tree_map_t* group )
+{
+	assert( p_config );
+	p_config->groups = (tree_map_t*) group;
+}
+
+unsigned int config_current_line( config_t* p_config )
+{
+	assert( p_config );
+	return p_config->line;
+}
+
+void config_increment_line( config_t* p_config )
+{
+	assert( p_config );
+	p_config->line++;
+}
 
 // settings.network.host
 variant_t* config_find( config_t* p_config, const char* key )
 {
-	tree_map_t* p_group = &p_config->groups;
+	tree_map_t* p_group = p_config->groups;
 	char key_copy[ 256 ] = { '\0' };
 	variant_t* p_result = NULL;
 
@@ -133,7 +160,7 @@ boolean config_add_group( config_t* p_config, const char* name )
 	variant_t* p_variant = variant_create_pointer( );
 	variant_set_pointer( p_variant, p_group );
 
-	return config_add_setting( &p_config->groups, name, p_variant );
+	return config_add_setting( p_config->groups, name, p_variant );
 }
 
 boolean config_add_group_to_group( config_t* p_config, tree_map_t* p_group, const char* name )

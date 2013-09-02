@@ -39,6 +39,25 @@
 #if YYDEBUG
 extern int config_debug;
 #endif
+/* "%code requires" blocks.  */
+/* Line 2049 of yacc.c  */
+#line 8 "config-parser.y"
+
+#include <libcollections/variant.h>
+#include <libcollections/tree-map.h>
+typedef struct config_pair {
+	const char* name;
+	variant_t*  value;
+} config_pair_t;
+
+typedef struct config_group {
+	const char* name;
+	tree_map_t* group;
+} config_group_t;
+
+
+/* Line 2049 of yacc.c  */
+#line 61 "config-parser.h"
 
 /* Tokens.  */
 #ifndef YYTOKENTYPE
@@ -62,16 +81,18 @@ extern int config_debug;
 typedef union YYSTYPE
 {
 /* Line 2049 of yacc.c  */
-#line 15 "config-parser.y"
+#line 34 "config-parser.y"
 
 	char* string;
 	long  integer;
 	double decimal;
 	unsigned char boolean;
+	config_group_t group;
+	config_pair_t pair;
 
 
 /* Line 2049 of yacc.c  */
-#line 75 "config-parser.h"
+#line 96 "config-parser.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
