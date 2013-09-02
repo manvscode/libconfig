@@ -2,8 +2,8 @@
 #define config_HEADER_H 1
 #define config_IN_HEADER 1
 
-#line 6 "config-lexer.h"
-#line 6 "config-lexer.l"
+#line 6 "src/config-lexer.h"
+#line 6 "src/config-lexer.l"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -19,7 +19,7 @@ typedef void* yyscan_t;
 
 
 
-#line 23 "config-lexer.h"
+#line 23 "src/config-lexer.h"
 
 #define  YY_INT_ALIGNED short int
 
@@ -351,9 +351,9 @@ extern int config_lex \
 #undef YY_DECL
 #endif
 
-#line 75 "config-lexer.l"
+#line 79 "src/config-lexer.l"
 
 
-#line 358 "config-lexer.h"
+#line 358 "src/config-lexer.h"
 #undef config_IN_HEADER
 #endif /* config_HEADER_H */

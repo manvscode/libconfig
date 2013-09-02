@@ -1,5 +1,5 @@
-#line 2 "config-lexer.c"
-#line 6 "config-lexer.l"
+#line 2 "src/config-lexer.c"
+#line 6 "src/config-lexer.l"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -15,7 +15,7 @@ typedef void* yyscan_t;
 
 
 
-#line 19 "config-lexer.c"
+#line 19 "src/config-lexer.c"
 
 #define  YY_INT_ALIGNED short int
 
@@ -517,12 +517,12 @@ goto find_rule; \
 #define yymore() yymore_used_but_not_detected
 #define YY_MORE_ADJ 0
 #define YY_RESTORE_YY_MORE_OFFSET
-#line 1 "config-lexer.l"
+#line 1 "src/config-lexer.l"
 /* flex -F -nounistd -R -o config-lexer.c --prefix=config_  --header-file=config-lexer.h config-lexer.l */
 #define YY_NO_UNISTD_H 1
 
 
-#line 526 "config-lexer.c"
+#line 526 "src/config-lexer.c"
 
 #define INITIAL 0
 #define COMMENT 1
@@ -774,9 +774,9 @@ YY_DECL
 	register int yy_act;
     struct yyguts_t * yyg = (struct yyguts_t*)yyscanner;
 
-#line 35 "config-lexer.l"
+#line 35 "src/config-lexer.l"
 
-#line 780 "config-lexer.c"
+#line 780 "src/config-lexer.c"
 
     yylval = yylval_param;
 
@@ -893,50 +893,50 @@ do_action:	/* This label is used only to access EOF actions. */
 	{ /* beginning of action switch */
 case 1:
 YY_RULE_SETUP
-#line 36 "config-lexer.l"
+#line 36 "src/config-lexer.l"
 { /* ignore whitespace */ }
 	YY_BREAK
 case 2:
 /* rule 2 can match eol */
 YY_RULE_SETUP
-#line 37 "config-lexer.l"
+#line 37 "src/config-lexer.l"
 { config_t* p_config = config_get_extra( yyscanner ); config_increment_line(p_config); }
 	YY_BREAK
 case 3:
 /* rule 3 can match eol */
 YY_RULE_SETUP
-#line 38 "config-lexer.l"
+#line 38 "src/config-lexer.l"
 { /* ignore empty lines */ config_t* p_config = config_get_extra( yyscanner ); config_increment_line(p_config); }
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 39 "config-lexer.l"
+#line 39 "src/config-lexer.l"
 { /* ignore line comments */ }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 40 "config-lexer.l"
+#line 40 "src/config-lexer.l"
 { BEGIN COMMENT; /* enter the comment state */ }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 41 "config-lexer.l"
+#line 41 "src/config-lexer.l"
 { BEGIN 0; /* leave the comment state */ }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 42 "config-lexer.l"
+#line 42 "src/config-lexer.l"
 { /* ignore comment text */ } 
 	YY_BREAK
 case 8:
 /* rule 8 can match eol */
 YY_RULE_SETUP
-#line 43 "config-lexer.l"
+#line 43 "src/config-lexer.l"
 { /* ignore comment text */ config_t* p_config = config_get_extra( yyscanner ); config_increment_line(p_config); }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 44 "config-lexer.l"
+#line 44 "src/config-lexer.l"
 { 
 												YYSTYPE *lval = config_get_lval( yyscanner );
 												lval->string = strdup(yytext);
@@ -945,7 +945,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 49 "config-lexer.l"
+#line 49 "src/config-lexer.l"
 { 
 												YYSTYPE *lval = config_get_lval( yyscanner );
 												lval->integer = atol(yytext);
@@ -954,7 +954,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 54 "config-lexer.l"
+#line 54 "src/config-lexer.l"
 { 
 												YYSTYPE *lval = config_get_lval( yyscanner );
 												lval->decimal = atof(yytext);
@@ -963,7 +963,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 59 "config-lexer.l"
+#line 59 "src/config-lexer.l"
 { 
 												unsigned char b = strcasecmp(yytext, "true") == 0 || strcmp(yytext, "1") == 0; 
 												YYSTYPE *lval = config_get_lval( yyscanner );
@@ -974,39 +974,43 @@ YY_RULE_SETUP
 case 13:
 /* rule 13 can match eol */
 YY_RULE_SETUP
-#line 65 "config-lexer.l"
+#line 65 "src/config-lexer.l"
 { 
 												YYSTYPE *lval = config_get_lval( yyscanner );
-												lval->string = strdup(yytext);
+											
+												size_t len = strlen( yytext ) - 2; /* minus the quotes */
+												lval->string = (char*) malloc( len + 1 );
+												strncpy( lval->string, yytext + 1, len );
+												lval->string[ len + 1 ] = '\0';
 												return TOK_STRING;
                                             }
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 70 "config-lexer.l"
+#line 74 "src/config-lexer.l"
 { return '{'; }
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 71 "config-lexer.l"
+#line 75 "src/config-lexer.l"
 { return '}'; }
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 72 "config-lexer.l"
+#line 76 "src/config-lexer.l"
 { return '='; }
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 73 "config-lexer.l"
+#line 77 "src/config-lexer.l"
 { }
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 75 "config-lexer.l"
+#line 79 "src/config-lexer.l"
 ECHO;
 	YY_BREAK
-#line 1010 "config-lexer.c"
+#line 1014 "src/config-lexer.c"
 			case YY_STATE_EOF(INITIAL):
 			case YY_STATE_EOF(COMMENT):
 				yyterminate();
@@ -2148,7 +2152,7 @@ void config_free (void * ptr , yyscan_t yyscanner)
 
 #define YYTABLES_NAME "yytables"
 
-#line 75 "config-lexer.l"
+#line 79 "src/config-lexer.l"
 
 
 int config_wrap (yyscan_t yyscanner )
@@ -2161,7 +2165,7 @@ void config_error( yyscan_t yyscanner, const char* error )
 	config_t* p_config = config_get_extra( yyscanner );
 	const char* text = config_get_text( yyscanner );
 
-	fprintf( stderr, "Error: %s (line = %d, text = \"%s\")\n", error, config_current_line(p_config), text );
+	fprintf( stderr, "Error: %s (line %d, problem around text \"%s\")\n", error, config_current_line(p_config), text );
 	exit( -1 );
 }
 

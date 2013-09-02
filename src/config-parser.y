@@ -13,16 +13,13 @@ typedef struct config_pair {
 	variant_t*  value;
 } config_pair_t;
 
-typedef struct config_group {
-	const char* name;
-	tree_map_t* group;
-} config_group_t;
 }
 
 %{
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
+#include <assert.h>
 #include "config-private.h"
 #include "config-lexer.h"
 #include "config.h"
@@ -36,7 +33,6 @@ extern void config_error( yyscan_t yyscanner, const char* error );
 	long  integer;
 	double decimal;
 	unsigned char boolean;
-	config_group_t group;
 	config_pair_t pair;
 }
 
@@ -48,59 +44,122 @@ extern void config_error( yyscan_t yyscanner, const char* error );
 %token <decimal> TOK_DECIMAL 
 %token <boolean> TOK_BOOLEAN
 
-%type <group> groups
-%type <group> group
-%type <group> statements
+%type <pair> groups
+%type <pair> group
+%type <pair> statements
 %type <pair> statement
 
 %%
 
-
+/*
 config : groups                            {
 												config_t* p_config = config_get_extra( scanner );
-												tree_map_t* main_group = $1.group;
+												config_pair_t group = $1;
+												tree_map_t* main_group = variant_pointer( group.value );
 												config_set_main_group( p_config, main_group );
                                            }
        ;
+*/
 
 groups : groups group                      {
-												config_group_t group = $1;
-												tree_map_t* p_group = group.group;
-												tree_map_insert( p_group, $2.name, $2.group );
-												$$ = $1;
+												config_pair_t group1 = $1;
+												config_pair_t group2 = $2;
+
+												config_t* p_config = config_get_extra( scanner );
+												tree_map_t* main_group = config_main_group( p_config );
+
+												if( !main_group )
+												{
+													main_group = tree_map_create_ex( (tree_map_element_function) group_item_destroy,
+																							  (tree_map_compare_function) group_item_compare,
+																							   malloc, free );
+													config_set_main_group( p_config, main_group );
+												}
+
+												void* unused;
+												if( !tree_map_find( main_group, group1.name, &unused ) )
+												{
+													tree_map_insert( main_group, group1.name, group1.value );
+												}
+												if( !tree_map_find( main_group, group2.name, &unused ) )
+												{
+													tree_map_insert( main_group, group2.name, group2.value );
+												}
+
+												/*
+												config_pair_t group1 = $1;
+												config_pair_t group2 = $2;
+
+												tree_map_t* p_new_group = tree_map_create_ex( (tree_map_element_function) group_item_destroy,
+																						  (tree_map_compare_function) group_item_compare,
+																						   malloc, free );
+												tree_map_insert( p_new_group, group1.name, group1.value );
+												tree_map_insert( p_new_group, group2.name, group2.value );
+
+												config_pair_t enclosing_group;
+												enclosing_group.name = strdup("todo"); 
+												enclosing_group.value = variant_create( VARIANT_POINTER );
+												variant_set_pointer( enclosing_group.value, p_new_group );
+												$$ = enclosing_group;	
+												*/
+
+												/*
+												config_pair_t group1 = $1;
+												config_pair_t group2 = $2;
+							
+												tree_map_t* p_group = variant_pointer(group1.value);
+												tree_map_insert( p_group, group2.name, group2.value );
+												$$ = group1;
+												*/
                                            }
        | group                             {
-												$$ = $1;
+												config_pair_t group = $1;
+												$$ = group;
                                            }
        ;
 
 group : TOK_NAME '{' statements '}'        { 
-												config_group_t group = $<group>2;
+												config_pair_t group = $3;
 												group.name = $1;
+
 												// group.group is already initialized from $2
 												$$ = group;
-												printf( " Read Group: %s \n", $1 );
+
+												config_t* p_config = config_get_extra( scanner );
+												if( config_is_verbose(p_config) )
+												{
+													printf( "Read Group: \"%s\" \n", $1 );
+												}
 										   }
       | TOK_NAME '{' '}'                   { 
-												config_group_t group;
+												config_pair_t group;
 												group.name = $1;
-												group.group = NULL;
+												group.value = NULL;
 												$$ = group;
-												printf( " Read Group: %s \n", $1 );
+
+												config_t* p_config = config_get_extra( scanner );
+												if( config_is_verbose(p_config) )
+												{
+													printf( "Read Group: \"%s\" \n", $1 );
+												}
                                            }
       ;
 
 statements : statements statement          { 
-												config_group_t group = $1;
-												tree_map_t* p_group = group.group;
+												config_pair_t group = $1;
+												tree_map_t* p_group = variant_pointer(group.value);
+												assert( tree_map_size( p_group ) > 0 && tree_map_size(p_group) < 4096 );
 												tree_map_insert( p_group, $2.name, $2.value );
-												$$ = $1;
+												assert( tree_map_size( p_group ) > 0 && tree_map_size(p_group) < 4096 );
+												$$ = group;
                                            }
            | statements group              {
-												config_group_t group = $1;
-												tree_map_t* p_group = group.group;
-												tree_map_insert( p_group, $2.name, $2.group );
-												$$ = $1;
+												config_pair_t group1 = $1;
+												config_pair_t group2 = $2;
+												tree_map_t* p_group = variant_pointer(group1.value);
+												tree_map_insert( p_group, group2.name, group2.value );
+												assert( tree_map_size( p_group ) > 0 && tree_map_size(p_group) < 4096 );
+												$$ = group1;
                                            }
            | statement                     {
 												tree_map_t* p_new_group = tree_map_create_ex( (tree_map_element_function) group_item_destroy,
@@ -108,20 +167,25 @@ statements : statements statement          {
 																						   malloc, free );
 												tree_map_insert( p_new_group, $1.name, $1.value );
 
-												config_group_t group;
+												assert( tree_map_size( p_new_group ) > 0 && tree_map_size(p_new_group) < 4096 );
+
+												config_pair_t group;
 												group.name = NULL; /* Will be set later */
-												group.group = p_new_group;
+												group.value = variant_create( VARIANT_POINTER );
+												variant_set_pointer( group.value, p_new_group );
 												$$ = group;	
                                            }
            | group                         {
 												tree_map_t* p_new_group = tree_map_create_ex( (tree_map_element_function) group_item_destroy,
 																						  (tree_map_compare_function) group_item_compare,
 																						   malloc, free );
-												tree_map_insert( p_new_group, $1.name, $1.group );
+												tree_map_insert( p_new_group, $1.name, $1.value );
+												assert( tree_map_size( p_new_group ) > 0 && tree_map_size(p_new_group) < 4096 );
 
-												config_group_t group;
+												config_pair_t group;
 												group.name = NULL; /* Will be set later */
-												group.group = p_new_group;
+												group.value = variant_create( VARIANT_POINTER );
+												variant_set_pointer( group.value, p_new_group );
 												$$ = group;	
                                            }
            ;
@@ -133,7 +197,12 @@ statement : TOK_NAME '=' TOK_STRING        {
 												pair.value = variant_create( VARIANT_STRING );
 												variant_set_string( pair.value, $3 );
 												$$ = pair;
-												printf( "Read %s: %s \n", $1, $3 ); 
+										
+												config_t* p_config = config_get_extra( scanner );
+												if( config_is_verbose(p_config) )
+												{
+													printf( "Read %s: \"%s\" \n", $1, $3 ); 
+												}
                                            }
           | TOK_NAME '=' TOK_INTEGER       { 
 												config_pair_t pair;
@@ -141,7 +210,12 @@ statement : TOK_NAME '=' TOK_STRING        {
 												pair.value = variant_create( VARIANT_INTEGER );
 												variant_set_integer( pair.value, $3 );
 												$$ = pair;
-												printf( "Read %s: %ld \n", $1, $3 ); 
+
+												config_t* p_config = config_get_extra( scanner );
+												if( config_is_verbose(p_config) )
+												{
+													printf( "Read %s: %ld \n", $1, $3 ); 
+												}
                                            }
           | TOK_NAME '=' TOK_DECIMAL       { 
 												config_pair_t pair;
@@ -149,7 +223,12 @@ statement : TOK_NAME '=' TOK_STRING        {
 												pair.value = variant_create( VARIANT_DECIMAL );
 												variant_set_decimal( pair.value, $3 );
 												$$ = pair;
-												printf( "Read %s: %lf \n", $1, $3 );
+
+												config_t* p_config = config_get_extra( scanner );
+												if( config_is_verbose(p_config) )
+												{
+													printf( "Read %s: %lf \n", $1, $3 );
+												}
                                            }
           | TOK_NAME '=' TOK_BOOLEAN       { 
 												config_pair_t pair;
@@ -157,7 +236,12 @@ statement : TOK_NAME '=' TOK_STRING        {
 												pair.value = variant_create( VARIANT_UNSIGNED_INTEGER );
 												variant_set_unsigned_integer( pair.value, $3 );
 												$$ = pair;
-												printf( "Read %s: %d \n", $1, $3 ); 
+
+												config_t* p_config = config_get_extra( scanner );
+												if( config_is_verbose(p_config) )
+												{
+													printf( "Read %s: %d \n", $1, $3 ); 
+												}
                                            }
           ;
 %%

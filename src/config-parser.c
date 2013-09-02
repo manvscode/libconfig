@@ -70,11 +70,12 @@
 
 /* Copy the first part of user declarations.  */
 /* Line 336 of yacc.c  */
-#line 22 "config-parser.y"
+#line 18 "src/config-parser.y"
 
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
+#include <assert.h>
 #include "config-private.h"
 #include "config-lexer.h"
 #include "config.h"
@@ -83,7 +84,7 @@ extern void config_error( yyscan_t yyscanner, const char* error );
 
 
 /* Line 336 of yacc.c  */
-#line 87 "config-parser.c"
+#line 88 "src/config-parser.c"
 
 # ifndef YY_NULL
 #  if defined __cplusplus && 201103L <= __cplusplus
@@ -103,8 +104,8 @@ extern void config_error( yyscan_t yyscanner, const char* error );
 
 /* In a future release of Bison, this section will be replaced
    by #include "config-parser.h".  */
-#ifndef CONFIG_CONFIG_PARSER_H
-# define CONFIG_CONFIG_PARSER_H
+#ifndef CONFIG_SRC_CONFIG_PARSER_H
+# define CONFIG_SRC_CONFIG_PARSER_H
 /* Enabling traces.  */
 #ifndef YYDEBUG
 # define YYDEBUG 1
@@ -114,7 +115,7 @@ extern int config_debug;
 #endif
 /* "%code requires" blocks.  */
 /* Line 350 of yacc.c  */
-#line 8 "config-parser.y"
+#line 8 "src/config-parser.y"
 
 #include <libcollections/variant.h>
 #include <libcollections/tree-map.h>
@@ -123,14 +124,10 @@ typedef struct config_pair {
 	variant_t*  value;
 } config_pair_t;
 
-typedef struct config_group {
-	const char* name;
-	tree_map_t* group;
-} config_group_t;
 
 
 /* Line 350 of yacc.c  */
-#line 134 "config-parser.c"
+#line 131 "src/config-parser.c"
 
 /* Tokens.  */
 #ifndef YYTOKENTYPE
@@ -154,18 +151,17 @@ typedef struct config_group {
 typedef union YYSTYPE
 {
 /* Line 350 of yacc.c  */
-#line 34 "config-parser.y"
+#line 31 "src/config-parser.y"
 
 	char* string;
 	long  integer;
 	double decimal;
 	unsigned char boolean;
-	config_group_t group;
 	config_pair_t pair;
 
 
 /* Line 350 of yacc.c  */
-#line 169 "config-parser.c"
+#line 165 "src/config-parser.c"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
@@ -187,12 +183,12 @@ int config_parse ();
 #endif
 #endif /* ! YYPARSE_PARAM */
 
-#endif /* !CONFIG_CONFIG_PARSER_H  */
+#endif /* !CONFIG_SRC_CONFIG_PARSER_H  */
 
 /* Copy the second part of user declarations.  */
 
 /* Line 353 of yacc.c  */
-#line 196 "config-parser.c"
+#line 192 "src/config-parser.c"
 
 #ifdef short
 # undef short
@@ -410,18 +406,18 @@ union yyalloc
 #endif /* !YYCOPY_NEEDED */
 
 /* YYFINAL -- State number of the termination state.  */
-#define YYFINAL  6
+#define YYFINAL  5
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   17
+#define YYLAST   18
 
 /* YYNTOKENS -- Number of terminals.  */
 #define YYNTOKENS  14
 /* YYNNTS -- Number of nonterminals.  */
-#define YYNNTS  6
+#define YYNNTS  5
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  14
+#define YYNRULES  13
 /* YYNRULES -- Number of states.  */
-#define YYNSTATES  21
+#define YYNSTATES  20
 
 /* YYTRANSLATE(YYLEX) -- Bison symbol number corresponding to YYLEX.  */
 #define YYUNDEFTOK  2
@@ -467,25 +463,25 @@ static const yytype_uint8 yytranslate[] =
    YYRHS.  */
 static const yytype_uint8 yyprhs[] =
 {
-       0,     0,     3,     5,     8,    10,    15,    19,    22,    25,
-      27,    29,    33,    37,    41
+       0,     0,     3,     6,     8,    13,    17,    20,    23,    25,
+      27,    31,    35,    39
 };
 
 /* YYRHS -- A `-1'-separated list of the rules' RHS.  */
 static const yytype_int8 yyrhs[] =
 {
-      15,     0,    -1,    16,    -1,    16,    17,    -1,    17,    -1,
-       6,    11,    18,    12,    -1,     6,    11,    12,    -1,    18,
-      19,    -1,    18,    17,    -1,    19,    -1,    17,    -1,     6,
-      13,     7,    -1,     6,    13,     8,    -1,     6,    13,     9,
-      -1,     6,    13,    10,    -1
+      15,     0,    -1,    15,    16,    -1,    16,    -1,     6,    11,
+      17,    12,    -1,     6,    11,    12,    -1,    17,    18,    -1,
+      17,    16,    -1,    18,    -1,    16,    -1,     6,    13,     7,
+      -1,     6,    13,     8,    -1,     6,    13,     9,    -1,     6,
+      13,    10,    -1
 };
 
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    59,    59,    66,    72,    77,    84,    93,    99,   105,
-     116,   130,   138,   146,   154
+       0,    64,    64,   115,   121,   134,   148,   156,   164,   178,
+     194,   207,   220,   233
 };
 #endif
 
@@ -496,8 +492,8 @@ static const char *const yytname[] =
 {
   "$end", "error", "$undefined", "TOK_LCURLY", "TOK_RCURLY", "TOK_EQUAL",
   "TOK_NAME", "TOK_STRING", "TOK_INTEGER", "TOK_DECIMAL", "TOK_BOOLEAN",
-  "'{'", "'}'", "'='", "$accept", "config", "groups", "group",
-  "statements", "statement", YY_NULL
+  "'{'", "'}'", "'='", "$accept", "groups", "group", "statements",
+  "statement", YY_NULL
 };
 #endif
 
@@ -514,15 +510,15 @@ static const yytype_uint16 yytoknum[] =
 /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
 static const yytype_uint8 yyr1[] =
 {
-       0,    14,    15,    16,    16,    17,    17,    18,    18,    18,
-      18,    19,    19,    19,    19
+       0,    14,    15,    15,    16,    16,    17,    17,    17,    17,
+      18,    18,    18,    18
 };
 
 /* YYR2[YYN] -- Number of symbols composing right hand side of rule YYN.  */
 static const yytype_uint8 yyr2[] =
 {
-       0,     2,     1,     2,     1,     4,     3,     2,     2,     1,
-       1,     3,     3,     3,     3
+       0,     2,     2,     1,     4,     3,     2,     2,     1,     1,
+       3,     3,     3,     3
 };
 
 /* YYDEFACT[STATE-NAME] -- Default reduction number in state STATE-NUM.
@@ -530,31 +526,29 @@ static const yytype_uint8 yyr2[] =
    means the default is an error.  */
 static const yytype_uint8 yydefact[] =
 {
-       0,     0,     0,     2,     4,     0,     1,     3,     0,     6,
-      10,     0,     9,     0,     5,     8,     7,    11,    12,    13,
-      14
+       0,     0,     0,     3,     0,     1,     2,     0,     5,     9,
+       0,     8,     0,     4,     7,     6,    10,    11,    12,    13
 };
 
 /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int8 yydefgoto[] =
 {
-      -1,     2,     3,     4,    11,    12
+      -1,     2,     3,    10,    11
 };
 
 /* YYPACT[STATE-NUM] -- Index in YYTABLE of the portion describing
    STATE-NUM.  */
-#define YYPACT_NINF -9
+#define YYPACT_NINF -8
 static const yytype_int8 yypact[] =
 {
-       0,     5,     9,     0,    -9,    -5,    -9,    -9,    -8,    -9,
-      -9,    -2,    -9,     4,    -9,    -9,    -9,    -9,    -9,    -9,
-      -9
+       4,     6,     1,    -8,    -3,    -8,    -8,    -7,    -8,    -8,
+      -1,    -8,     5,    -8,    -8,    -8,    -8,    -8,    -8,    -8
 };
 
 /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-      -9,    -9,    -9,    -3,    -9,     6
+      -8,    -8,    -2,    -8,     8
 };
 
 /* YYTABLE[YYPACT[STATE-NUM]].  What to do in state STATE-NUM.  If
@@ -563,29 +557,28 @@ static const yytype_int8 yypgoto[] =
 #define YYTABLE_NINF -1
 static const yytype_uint8 yytable[] =
 {
-       7,     8,    10,     5,     8,    13,     1,     9,    15,     6,
-      14,    17,    18,    19,    20,     0,     5,    16
+       6,     5,     9,     7,     4,     7,    12,     1,    14,     8,
+       1,    13,    16,    17,    18,    19,     0,     4,    15
 };
 
 #define yypact_value_is_default(yystate) \
-  ((yystate) == (-9))
+  ((yystate) == (-8))
 
 #define yytable_value_is_error(yytable_value) \
   YYID (0)
 
 static const yytype_int8 yycheck[] =
 {
-       3,     6,     5,    11,     6,    13,     6,    12,    11,     0,
-      12,     7,     8,     9,    10,    -1,    11,    11
+       2,     0,     4,     6,    11,     6,    13,     6,    10,    12,
+       6,    12,     7,     8,     9,    10,    -1,    11,    10
 };
 
 /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
    symbol of state STATE-NUM.  */
 static const yytype_uint8 yystos[] =
 {
-       0,     6,    15,    16,    17,    11,     0,    17,     6,    12,
-      17,    18,    19,    13,    12,    17,    19,     7,     8,     9,
-      10
+       0,     6,    15,    16,    11,     0,    16,     6,    12,    16,
+      17,    18,    13,    12,    16,    18,     7,     8,     9,    10
 };
 
 #define yyerrok		(yyerrstatus = 0)
@@ -1415,166 +1408,242 @@ yyreduce:
     {
         case 2:
 /* Line 1787 of yacc.c  */
-#line 59 "config-parser.y"
+#line 64 "src/config-parser.y"
     {
+												config_pair_t group1 = (yyvsp[(1) - (2)].pair);
+												config_pair_t group2 = (yyvsp[(2) - (2)].pair);
+
 												config_t* p_config = config_get_extra( scanner );
-												tree_map_t* main_group = (yyvsp[(1) - (1)].group).group;
-												config_set_main_group( p_config, main_group );
+												tree_map_t* main_group = config_main_group( p_config );
+
+												if( !main_group )
+												{
+													main_group = tree_map_create_ex( (tree_map_element_function) group_item_destroy,
+																							  (tree_map_compare_function) group_item_compare,
+																							   malloc, free );
+													config_set_main_group( p_config, main_group );
+												}
+
+												void* unused;
+												if( !tree_map_find( main_group, group1.name, &unused ) )
+												{
+													tree_map_insert( main_group, group1.name, group1.value );
+												}
+												if( !tree_map_find( main_group, group2.name, &unused ) )
+												{
+													tree_map_insert( main_group, group2.name, group2.value );
+												}
+
+												/*
+												config_pair_t group1 = $1;
+												config_pair_t group2 = $2;
+
+												tree_map_t* p_new_group = tree_map_create_ex( (tree_map_element_function) group_item_destroy,
+																						  (tree_map_compare_function) group_item_compare,
+																						   malloc, free );
+												tree_map_insert( p_new_group, group1.name, group1.value );
+												tree_map_insert( p_new_group, group2.name, group2.value );
+
+												config_pair_t enclosing_group;
+												enclosing_group.name = strdup("todo"); 
+												enclosing_group.value = variant_create( VARIANT_POINTER );
+												variant_set_pointer( enclosing_group.value, p_new_group );
+												$$ = enclosing_group;	
+												*/
+
+												/*
+												config_pair_t group1 = $1;
+												config_pair_t group2 = $2;
+							
+												tree_map_t* p_group = variant_pointer(group1.value);
+												tree_map_insert( p_group, group2.name, group2.value );
+												$$ = group1;
+												*/
                                            }
     break;
 
   case 3:
 /* Line 1787 of yacc.c  */
-#line 66 "config-parser.y"
+#line 115 "src/config-parser.y"
     {
-												config_group_t group = (yyvsp[(1) - (2)].group);
-												tree_map_t* p_group = group.group;
-												tree_map_insert( p_group, (yyvsp[(2) - (2)].group).name, (yyvsp[(2) - (2)].group).group );
-												(yyval.group) = (yyvsp[(1) - (2)].group);
+												config_pair_t group = (yyvsp[(1) - (1)].pair);
+												(yyval.pair) = group;
                                            }
     break;
 
   case 4:
 /* Line 1787 of yacc.c  */
-#line 72 "config-parser.y"
-    {
-												(yyval.group) = (yyvsp[(1) - (1)].group);
-                                           }
+#line 121 "src/config-parser.y"
+    { 
+												config_pair_t group = (yyvsp[(3) - (4)].pair);
+												group.name = (yyvsp[(1) - (4)].string);
+
+												// group.group is already initialized from $2
+												(yyval.pair) = group;
+
+												config_t* p_config = config_get_extra( scanner );
+												if( config_is_verbose(p_config) )
+												{
+													printf( "Read Group: \"%s\" \n", (yyvsp[(1) - (4)].string) );
+												}
+										   }
     break;
 
   case 5:
 /* Line 1787 of yacc.c  */
-#line 77 "config-parser.y"
+#line 134 "src/config-parser.y"
     { 
-												config_group_t group = (yyvsp[(2) - (4)].group);
-												group.name = (yyvsp[(1) - (4)].string);
-												// group.group is already initialized from $2
-												(yyval.group) = group;
-												printf( " Read Group: %s \n", (yyvsp[(1) - (4)].string) );
-										   }
+												config_pair_t group;
+												group.name = (yyvsp[(1) - (3)].string);
+												group.value = NULL;
+												(yyval.pair) = group;
+
+												config_t* p_config = config_get_extra( scanner );
+												if( config_is_verbose(p_config) )
+												{
+													printf( "Read Group: \"%s\" \n", (yyvsp[(1) - (3)].string) );
+												}
+                                           }
     break;
 
   case 6:
 /* Line 1787 of yacc.c  */
-#line 84 "config-parser.y"
+#line 148 "src/config-parser.y"
     { 
-												config_group_t group;
-												group.name = (yyvsp[(1) - (3)].string);
-												group.group = NULL;
-												(yyval.group) = group;
-												printf( " Read Group: %s \n", (yyvsp[(1) - (3)].string) );
+												config_pair_t group = (yyvsp[(1) - (2)].pair);
+												tree_map_t* p_group = variant_pointer(group.value);
+												assert( tree_map_size( p_group ) > 0 && tree_map_size(p_group) < 4096 );
+												tree_map_insert( p_group, (yyvsp[(2) - (2)].pair).name, (yyvsp[(2) - (2)].pair).value );
+												assert( tree_map_size( p_group ) > 0 && tree_map_size(p_group) < 4096 );
+												(yyval.pair) = group;
                                            }
     break;
 
   case 7:
 /* Line 1787 of yacc.c  */
-#line 93 "config-parser.y"
-    { 
-												config_group_t group = (yyvsp[(1) - (2)].group);
-												tree_map_t* p_group = group.group;
-												tree_map_insert( p_group, (yyvsp[(2) - (2)].pair).name, (yyvsp[(2) - (2)].pair).value );
-												(yyval.group) = (yyvsp[(1) - (2)].group);
+#line 156 "src/config-parser.y"
+    {
+												config_pair_t group1 = (yyvsp[(1) - (2)].pair);
+												config_pair_t group2 = (yyvsp[(2) - (2)].pair);
+												tree_map_t* p_group = variant_pointer(group1.value);
+												tree_map_insert( p_group, group2.name, group2.value );
+												assert( tree_map_size( p_group ) > 0 && tree_map_size(p_group) < 4096 );
+												(yyval.pair) = group1;
                                            }
     break;
 
   case 8:
 /* Line 1787 of yacc.c  */
-#line 99 "config-parser.y"
-    {
-												config_group_t group = (yyvsp[(1) - (2)].group);
-												tree_map_t* p_group = group.group;
-												tree_map_insert( p_group, (yyvsp[(2) - (2)].group).name, (yyvsp[(2) - (2)].group).group );
-												(yyval.group) = (yyvsp[(1) - (2)].group);
-                                           }
-    break;
-
-  case 9:
-/* Line 1787 of yacc.c  */
-#line 105 "config-parser.y"
+#line 164 "src/config-parser.y"
     {
 												tree_map_t* p_new_group = tree_map_create_ex( (tree_map_element_function) group_item_destroy,
 																						  (tree_map_compare_function) group_item_compare,
 																						   malloc, free );
 												tree_map_insert( p_new_group, (yyvsp[(1) - (1)].pair).name, (yyvsp[(1) - (1)].pair).value );
 
-												config_group_t group;
+												assert( tree_map_size( p_new_group ) > 0 && tree_map_size(p_new_group) < 4096 );
+
+												config_pair_t group;
 												group.name = NULL; /* Will be set later */
-												group.group = p_new_group;
-												(yyval.group) = group;	
+												group.value = variant_create( VARIANT_POINTER );
+												variant_set_pointer( group.value, p_new_group );
+												(yyval.pair) = group;	
+                                           }
+    break;
+
+  case 9:
+/* Line 1787 of yacc.c  */
+#line 178 "src/config-parser.y"
+    {
+												tree_map_t* p_new_group = tree_map_create_ex( (tree_map_element_function) group_item_destroy,
+																						  (tree_map_compare_function) group_item_compare,
+																						   malloc, free );
+												tree_map_insert( p_new_group, (yyvsp[(1) - (1)].pair).name, (yyvsp[(1) - (1)].pair).value );
+												assert( tree_map_size( p_new_group ) > 0 && tree_map_size(p_new_group) < 4096 );
+
+												config_pair_t group;
+												group.name = NULL; /* Will be set later */
+												group.value = variant_create( VARIANT_POINTER );
+												variant_set_pointer( group.value, p_new_group );
+												(yyval.pair) = group;	
                                            }
     break;
 
   case 10:
 /* Line 1787 of yacc.c  */
-#line 116 "config-parser.y"
-    {
-												tree_map_t* p_new_group = tree_map_create_ex( (tree_map_element_function) group_item_destroy,
-																						  (tree_map_compare_function) group_item_compare,
-																						   malloc, free );
-												tree_map_insert( p_new_group, (yyvsp[(1) - (1)].group).name, (yyvsp[(1) - (1)].group).group );
-
-												config_group_t group;
-												group.name = NULL; /* Will be set later */
-												group.group = p_new_group;
-												(yyval.group) = group;	
-                                           }
-    break;
-
-  case 11:
-/* Line 1787 of yacc.c  */
-#line 130 "config-parser.y"
+#line 194 "src/config-parser.y"
     { 
 												config_pair_t pair;
 												pair.name  = (yyvsp[(1) - (3)].string);
 												pair.value = variant_create( VARIANT_STRING );
 												variant_set_string( pair.value, (yyvsp[(3) - (3)].string) );
 												(yyval.pair) = pair;
-												printf( "Read %s: %s \n", (yyvsp[(1) - (3)].string), (yyvsp[(3) - (3)].string) ); 
+										
+												config_t* p_config = config_get_extra( scanner );
+												if( config_is_verbose(p_config) )
+												{
+													printf( "Read %s: \"%s\" \n", (yyvsp[(1) - (3)].string), (yyvsp[(3) - (3)].string) ); 
+												}
                                            }
     break;
 
-  case 12:
+  case 11:
 /* Line 1787 of yacc.c  */
-#line 138 "config-parser.y"
+#line 207 "src/config-parser.y"
     { 
 												config_pair_t pair;
 												pair.name  = (yyvsp[(1) - (3)].string);
 												pair.value = variant_create( VARIANT_INTEGER );
 												variant_set_integer( pair.value, (yyvsp[(3) - (3)].integer) );
 												(yyval.pair) = pair;
-												printf( "Read %s: %ld \n", (yyvsp[(1) - (3)].string), (yyvsp[(3) - (3)].integer) ); 
+
+												config_t* p_config = config_get_extra( scanner );
+												if( config_is_verbose(p_config) )
+												{
+													printf( "Read %s: %ld \n", (yyvsp[(1) - (3)].string), (yyvsp[(3) - (3)].integer) ); 
+												}
                                            }
     break;
 
-  case 13:
+  case 12:
 /* Line 1787 of yacc.c  */
-#line 146 "config-parser.y"
+#line 220 "src/config-parser.y"
     { 
 												config_pair_t pair;
 												pair.name  = (yyvsp[(1) - (3)].string);
 												pair.value = variant_create( VARIANT_DECIMAL );
 												variant_set_decimal( pair.value, (yyvsp[(3) - (3)].decimal) );
 												(yyval.pair) = pair;
-												printf( "Read %s: %lf \n", (yyvsp[(1) - (3)].string), (yyvsp[(3) - (3)].decimal) );
+
+												config_t* p_config = config_get_extra( scanner );
+												if( config_is_verbose(p_config) )
+												{
+													printf( "Read %s: %lf \n", (yyvsp[(1) - (3)].string), (yyvsp[(3) - (3)].decimal) );
+												}
                                            }
     break;
 
-  case 14:
+  case 13:
 /* Line 1787 of yacc.c  */
-#line 154 "config-parser.y"
+#line 233 "src/config-parser.y"
     { 
 												config_pair_t pair;
 												pair.name  = (yyvsp[(1) - (3)].string);
 												pair.value = variant_create( VARIANT_UNSIGNED_INTEGER );
 												variant_set_unsigned_integer( pair.value, (yyvsp[(3) - (3)].boolean) );
 												(yyval.pair) = pair;
-												printf( "Read %s: %d \n", (yyvsp[(1) - (3)].string), (yyvsp[(3) - (3)].boolean) ); 
+
+												config_t* p_config = config_get_extra( scanner );
+												if( config_is_verbose(p_config) )
+												{
+													printf( "Read %s: %d \n", (yyvsp[(1) - (3)].string), (yyvsp[(3) - (3)].boolean) ); 
+												}
                                            }
     break;
 
 
 /* Line 1787 of yacc.c  */
-#line 1578 "config-parser.c"
+#line 1647 "src/config-parser.c"
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1804,7 +1873,7 @@ yyreturn:
 
 
 /* Line 2048 of yacc.c  */
-#line 163 "config-parser.y"
+#line 247 "src/config-parser.y"
 
 
 /*

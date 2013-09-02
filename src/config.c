@@ -4,6 +4,7 @@
 #include <assert.h>
 #include <libcollections/tree-map.h>
 #include <libcollections/variant.h>
+#include <libcollections/types.h>
 #include "config-lexer.h"
 #include "config-parser.h"
 #include "config.h"
@@ -12,8 +13,9 @@
 
 
 struct config {
-	tree_map_t* groups;
+	boolean verbose;
 	unsigned int line;
+	tree_map_t* groups;
 };
 
 
@@ -45,7 +47,7 @@ int group_item_compare( const char* p_key_left, const char* p_key_right )
 
 
 
-config_t* config_create( const char* filename )
+config_t* config_create( const char* filename, boolean verbose )
 {
 	config_t* p_config = (config_t*) malloc( sizeof(config_t) );
 
@@ -57,7 +59,8 @@ config_t* config_create( const char* filename )
 						(tree_map_compare_function) group_item_compare,
 						malloc, free );
 		#endif
-		p_config->line = 1;
+		p_config->line    = 1;
+		p_config->verbose = verbose;
 
 		FILE* file = fopen( filename, "r" );
 		yyscan_t scanner;
@@ -124,23 +127,36 @@ variant_t* config_find( config_t* p_config, const char* key )
 
 	strcpy( key_copy, key );
 
-	char* current_key = strchr( key_copy, '.' );
+	char* dot = strchr( key_copy, '.' );
+	char* current_key = key_copy;
 
 	while( current_key )
 	{
-		*current_key = '\0';
+		if( dot )
+		{
+			*dot = '\0';
+		}
 
 		if( tree_map_find( p_group, current_key, (void**) &p_result ) )
 		{
 			if( variant_is_pointer( p_result ) )
 			{
 				p_group = (tree_map_t*) variant_pointer( p_result );
-				current_key++; // skip over null terminator
-				current_key = strchr( current_key, '.' );
+				if( dot )
+				{
+					current_key = dot + 1; // skip over null terminator
+					dot = strchr( current_key, '.' );
+				}
+			}
+			else
+			{
+				/* found something so we're done searching. */
+				current_key = NULL;
 			}
 		}
 		else
 		{
+			p_result    = NULL;
 			current_key = NULL;
 		}
 	}
@@ -148,6 +164,83 @@ variant_t* config_find( config_t* p_config, const char* key )
 	return p_result;
 }
 
+void config_dump_tab( FILE* file, short indent )
+{
+	while( indent > 0 )
+	{
+		fprintf( file, "\t" );
+		indent--;
+	}
+}
+
+void config_dump_group( FILE* file, short indent, const char* name, const tree_map_t* group )
+{
+	if( name )
+	{
+		config_dump_tab( file, indent );
+		fprintf( file, "%s {\n", name );
+	}
+
+	for( tree_map_iterator_t itr = tree_map_begin( group );
+	     itr != tree_map_end( );
+		 itr = tree_map_next( itr ) )
+	{
+		const char* name       = itr->key;
+		const variant_t* value = itr->value;
+
+		switch( variant_type(value) )
+		{
+			case VARIANT_POINTER: /* tree_map_t* */
+				config_dump_group( file, indent + 1, name, variant_pointer(value) );
+				break;
+			case VARIANT_STRING:
+				config_dump_tab( file, indent + 1 );
+				fprintf( file, "%s = \"%s\"\n", name, variant_string(value) );
+				break;
+			case VARIANT_DECIMAL:
+				config_dump_tab( file, indent + 1 );
+				fprintf( file, "%s = %lf\n", name, variant_decimal(value) );
+				break;
+			case VARIANT_INTEGER:
+				config_dump_tab( file, indent + 1 );
+				fprintf( file, "%s = %ld\n", name, variant_integer(value) );
+				break;
+			case VARIANT_UNSIGNED_INTEGER:
+				config_dump_tab( file, indent + 1 );
+				fprintf( file, "%s = %ld\n", name, variant_unsigned_integer(value) );
+				break;
+			default:
+				/* Ignore unknown values */
+				fprintf( stderr, "Error: Ignoring unknown config setting \"%s\" of type %d.\n", name, variant_type(value) );
+				break;
+		}
+	}
+
+	if( name )
+	{
+		config_dump_tab( file, indent );
+		fprintf( file, "}\n" );
+	}
+}
+
+
+void config_dump( FILE* file, const config_t* p_config )
+{
+	short indent = -1;
+	config_dump_group( file, indent, NULL, p_config->groups );
+}
+
+boolean config_is_verbose( config_t* p_config )
+{
+	assert( p_config );
+	return p_config->verbose;
+}
+
+void config_set_verbose( config_t* p_config, boolean v )
+{
+	assert( p_config );
+	p_config->verbose = v;
+}
 
 
 boolean config_add_group( config_t* p_config, const char* name )

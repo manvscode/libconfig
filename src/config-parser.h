@@ -30,8 +30,8 @@
    This special exception was added by the Free Software Foundation in
    version 2.2 of Bison.  */
 
-#ifndef CONFIG_CONFIG_PARSER_H
-# define CONFIG_CONFIG_PARSER_H
+#ifndef CONFIG_SRC_CONFIG_PARSER_H
+# define CONFIG_SRC_CONFIG_PARSER_H
 /* Enabling traces.  */
 #ifndef YYDEBUG
 # define YYDEBUG 1
@@ -41,7 +41,7 @@ extern int config_debug;
 #endif
 /* "%code requires" blocks.  */
 /* Line 2049 of yacc.c  */
-#line 8 "config-parser.y"
+#line 8 "src/config-parser.y"
 
 #include <libcollections/variant.h>
 #include <libcollections/tree-map.h>
@@ -50,14 +50,10 @@ typedef struct config_pair {
 	variant_t*  value;
 } config_pair_t;
 
-typedef struct config_group {
-	const char* name;
-	tree_map_t* group;
-} config_group_t;
 
 
 /* Line 2049 of yacc.c  */
-#line 61 "config-parser.h"
+#line 57 "src/config-parser.h"
 
 /* Tokens.  */
 #ifndef YYTOKENTYPE
@@ -81,18 +77,17 @@ typedef struct config_group {
 typedef union YYSTYPE
 {
 /* Line 2049 of yacc.c  */
-#line 34 "config-parser.y"
+#line 31 "src/config-parser.y"
 
 	char* string;
 	long  integer;
 	double decimal;
 	unsigned char boolean;
-	config_group_t group;
 	config_pair_t pair;
 
 
 /* Line 2049 of yacc.c  */
-#line 96 "config-parser.h"
+#line 91 "src/config-parser.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
@@ -114,4 +109,4 @@ int config_parse ();
 #endif
 #endif /* ! YYPARSE_PARAM */
 
-#endif /* !CONFIG_CONFIG_PARSER_H  */
+#endif /* !CONFIG_SRC_CONFIG_PARSER_H  */

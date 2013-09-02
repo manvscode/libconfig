@@ -10,9 +10,12 @@ struct config;
 typedef struct config config_t;
 
 
-config_t*  config_create  ( const char* filename );
-void       config_destroy ( config_t** p_config );
-variant_t* config_find    ( config_t* p_config, const char* key );
+config_t*  config_create      ( const char* filename, boolean verbose );
+void       config_destroy     ( config_t** p_config );
+variant_t* config_find        ( config_t* p_config, const char* key );
+void       config_dump        ( FILE* file, const config_t* p_config );
+boolean    config_is_verbose  ( config_t* p_config );
+void       config_set_verbose ( config_t* p_config, boolean v );
 
 #if 0
 #define config_get( p_config, key )  _Generic( variant_type(config_find(p_config, key)), \
@@ -26,12 +29,6 @@ variant_t* config_find    ( config_t* p_config, const char* key );
 	) (p_config, key)
 #endif
 
-boolean config_add_group   ( config_t* p_config, const char* name );
-boolean config_add_setting ( tree_map_t* p_group, const char* name, const variant_t* p_variant );
-boolean config_add_string  ( tree_map_t* p_group, const char* name, const char* value );
-boolean config_add_boolean ( tree_map_t* p_group, const char* name, boolean value );
-boolean config_add_integer ( tree_map_t* p_group, const char* name, long value );
-boolean config_add_decimal ( tree_map_t* p_group, const char* name, double value );
 
 
 #endif

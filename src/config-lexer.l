@@ -64,7 +64,11 @@ equal          "="
                                             }
 {string}                                    { 
 												YYSTYPE *lval = config_get_lval( yyscanner );
-												lval->string = strdup(yytext);
+											
+												size_t len = strlen( yytext ) - 2; /* minus the quotes */
+												lval->string = (char*) malloc( len + 1 );
+												strncpy( lval->string, yytext + 1, len );
+												lval->string[ len + 1 ] = '\0';
 												return TOK_STRING;
                                             }
 "{"                                         { return '{'; }
@@ -83,7 +87,7 @@ void config_error( yyscan_t yyscanner, const char* error )
 	config_t* p_config = config_get_extra( yyscanner );
 	const char* text = config_get_text( yyscanner );
 
-	fprintf( stderr, "Error: %s (line = %d, text = \"%s\")\n", error, config_current_line(p_config), text );
+	fprintf( stderr, "Error: %s (line %d, problem around text \"%s\")\n", error, config_current_line(p_config), text );
 	exit( -1 );
 }
 
