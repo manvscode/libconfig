@@ -5,6 +5,6 @@ bin_PROGRAMS = \
 $(top_builddir)/bin/test
 
 __top_builddir__bin_test_SOURCES      = test.c
-__top_builddir__bin_test_LDADD        = -lcollections
-__top_builddir__bin_test_LDFLAGS      = -lcollections
+__top_builddir__bin_test_LDADD        = -lcollections -lconfig
+__top_builddir__bin_test_LDFLAGS      = -lcollections -lconfig
 

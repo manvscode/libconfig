@@ -6,7 +6,6 @@ AC_CONFIG_HEADERS([src/libconfig-config.h])
 
 AC_PROG_CC
 AC_PROG_CC_C99
-AC_PROG_CXX
 AC_C_INLINE
 AC_HEADER_STDC
 
@@ -22,10 +21,10 @@ AH_BOTTOM([
 
 DFLAGS="-D DEBUG "
 
-CFLAGS="-std=c99 -Wall -pedantic -g -ggdb -O0 $DFLAGS -I/usr/local/include"
+CFLAGS="-Wall -g -ggdb -O0 $DFLAGS -I/usr/local/include"
 LDFLAGS="-lcollections"
 
-#AM_PROG_AR
+AM_PROG_AR
 LT_INIT([shared static])
 AC_PROG_LIBTOOL
 AM_PROG_LIBTOOL

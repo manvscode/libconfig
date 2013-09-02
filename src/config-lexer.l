@@ -1,13 +1,23 @@
-/* flex -o config-lexer.c --prefix=config_  --header-file=config-lexer.h config-lexer.l */
-%{
-#include <stdlib.h>
+/* flex -F -nounistd -R -o config-lexer.c --prefix=config_  --header-file=config-lexer.h config-lexer.l */
+
+%option reentrant never-interactive bison-bridge nounistd 
+
+%top{
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+#include <libcollections/variant.h>
+#ifndef YY_TYPEDEF_YY_SCANNER_T
+#define YY_TYPEDEF_YY_SCANNER_T
+typedef void* yyscan_t;
+#endif
 #include "config-parser.h"
-%}
+}
 
 %x COMMENT
 
-whitespace     [ \t\r]+
+whitespace     [ \t\r\n]
 
 integer        [0-9]+
 decimal        [0-9]*\.[0-9]+
@@ -21,42 +31,68 @@ rcurly         "}"
 equal          "="
 
 %%
-
-{whitespace}              { /* ignore whitespace */ }
+{whitespace}+             { /* ignore whitespace */ }
 ^\n                       { /* ignore empty lines */ }
 {line_comments}           { /* ignore line comments */ }
 "/*"                      { BEGIN COMMENT; /* enter the comment state */ }
 <COMMENT>.*"*/"           { BEGIN 0; /* leave the comment state */ }
 <COMMENT>(.|\n)           { /* ignore comment text */ } 
 
-{name}                  { if( 0 ) printf( "   name = '%s'\n", yytext); config_lval.string = strdup(yytext); return TOK_NAME; }
-{integer}$               { if( 0 ) printf( "    int = '%s'\n", yytext); config_lval.integer = atol(yytext); return TOK_INTEGER; }
-{decimal}$               { if( 0 ) printf( "decimal = '%s'\n", yytext); config_lval.decimal = atof(yytext); return TOK_DECIMAL; }
-{boolean}$              { if( 0 ) printf( "   bool = '%s'\n", yytext); config_lval.boolean = strcasecmp(yytext, "true") == 0 || strcmp(yytext, "1") == 0; return TOK_BOOLEAN; }
-{string}                { if( 0 ) printf( " string = '%s'\n", yytext); config_lval.string = strdup(yytext); return TOK_STRING; }
-"{"                     { if( 0 ) printf( "{\n", yytext); return '{'; }
-"}"                     { if( 0 ) printf( "}\n", yytext); return '}'; }
-"="                     { if( 0 ) printf( "=\n", yytext); return '='; }
-.                       { if( 1 ) printf( "ignoring = '%s'\n", yytext); }
+{name}/({whitespace}*"{"|{whitespace}*"=")                { 
+								YYSTYPE *lval = config_get_lval( yyscanner );
+								lval->string = strdup(yytext);
+								return TOK_NAME;
+                          }
+{integer}                 { 
+								YYSTYPE *lval = config_get_lval( yyscanner );
+								lval->integer = atol(yytext);
+								//variant_t* p_variant = variant_create( VARIANT_INTEGER );
+								//variant_set_integer( p_variant, atol(yytext) );
+								//config_set_lval( p_variant, yyscanner ); 
+								return TOK_INTEGER; 
+                          }
+{decimal}                 { 
+								YYSTYPE *lval = config_get_lval( yyscanner );
+								lval->decimal = atof(yytext);
+								//variant_t* p_variant = variant_create( VARIANT_DECIMAL );
+								//variant_set_decimal( p_variant, atof(yytext) );
+								//config_set_lval( p_variant, yyscanner ); 
+								return TOK_DECIMAL;
+                          }
+{boolean}                 { 
+								unsigned char b = strcasecmp(yytext, "true") == 0 || strcmp(yytext, "1") == 0; 
+								YYSTYPE *lval = config_get_lval( yyscanner );
+								lval->boolean = b;
+								//variant_t* p_variant = variant_create( VARIANT_UNSIGNED_INTEGER );
+								//variant_set_unsigned_integer( p_variant, b );
+								//config_set_lval( p_variant, yyscanner ); 
+								return TOK_BOOLEAN;
+                          }
+{string}                  { 
+								YYSTYPE *lval = config_get_lval( yyscanner );
+								lval->string = strdup(yytext);
+								//variant_t* p_variant = variant_create( VARIANT_STRING );
+								//variant_set_string( p_variant, strdup(yytext) );
+								//config_set_lval( p_variant, yyscanner ); 
+								return TOK_STRING;
+                          }
+"{"                       { return '{'; }
+"}"                       { return '}'; }
+"="                       { return '='; }
+.                         { }
 
 %%
-
-/*
-int main( int argc, char* argv[] )
-{
-	config_lex();
-	return 0;
-}
-*/
-
-int config_wrap()
+int config_wrap (yyscan_t yyscanner )
 {
 	return 1;
 }
 
-void config_error( const char* error )
+void config_error( yyscan_t yyscanner, const char* error )
 {
-	fflush(stdout);
-	fprintf( stderr, "%s\n", error );
+ 	//int line = config_get_lineno( yyscanner );
+	const char* text = config_get_text( yyscanner );
+
+	fprintf( stderr, "Error: %s (text = \"%s\")\n", error, text );
+	exit( -1 );
 }
 

@@ -1,4 +1,16 @@
-/* bison -o config-parser.c -d --name-prefix=config_ config-parser.y */
+/* bison -o config-parser.c -d -v --name-prefix=config_ config-parser.y */
+
+%pure-parser
+%lex-param {yyscan_t scanner}
+%parse-param {yyscan_t scanner}
+
+%{
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+#include "config-lexer.h"
+extern void config_error( yyscan_t yyscanner, const char* error );
+%}
 
 %union {
 	char* string;
@@ -13,29 +25,15 @@
 %token <decimal> TOK_DECIMAL 
 %token <boolean> TOK_BOOLEAN
 
-%{
-#include <stdio.h>
-
-/*
-extern bool config_add_group   ( config_t* p_config, const char* name );
-extern bool config_add_setting ( tree_map_t* p_group, const char* name, const variant_t* p_variant );
-extern bool config_add_string  ( tree_map_t* p_group, const char* name, const char* value );
-extern bool config_add_boolean ( tree_map_t* p_group, const char* name, bool value );
-extern bool config_add_integer ( tree_map_t* p_group, const char* name, long value );
-extern bool config_add_decimal ( tree_map_t* p_group, const char* name, double value );
-
-config_t config;
-*/
-%}
-
-
 %%
 
 groups : groups group
        | group            
        ;
 
-group : TOK_NAME '{' statements '}'        { printf( "group := %s \n", $1 ); }
+group : TOK_NAME '{' statements '}'        { 
+												printf( "group := %s \n", $1 );
+										   }
       | TOK_NAME '{' '}'                   { printf( "group := %s \n", $1 ); }
       ;
 
@@ -46,7 +44,9 @@ statements : statements statement
            ;
 
 
-statement : TOK_NAME '=' TOK_STRING        { printf( "%30s := %s \n", $1, $3 ); }
+statement : TOK_NAME '=' TOK_STRING        { 
+												printf( "%30s := %s \n", $1, $3 ); 
+											}
           | TOK_NAME '=' TOK_INTEGER       { printf( "%30s := %ld \n", $1, $3 ); }
           | TOK_NAME '=' TOK_DECIMAL       { printf( "%30s := %lf \n", $1, $3 ); }
           | TOK_NAME '=' TOK_BOOLEAN       { printf( "%30s := %d \n", $1, $3 ); }
