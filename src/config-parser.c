@@ -75,6 +75,9 @@
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
+#if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L)
+#include <stdbool.h>
+#endif
 #include <assert.h>
 #include "config-private.h"
 #include "config-lexer.h"
@@ -84,7 +87,7 @@ extern void config_error( yyscan_t yyscanner, const char* error );
 
 
 /* Line 336 of yacc.c  */
-#line 88 "src/config-parser.c"
+#line 91 "src/config-parser.c"
 
 # ifndef YY_NULL
 #  if defined __cplusplus && 201103L <= __cplusplus
@@ -127,7 +130,7 @@ typedef struct config_pair {
 
 
 /* Line 350 of yacc.c  */
-#line 131 "src/config-parser.c"
+#line 134 "src/config-parser.c"
 
 /* Tokens.  */
 #ifndef YYTOKENTYPE
@@ -151,17 +154,21 @@ typedef struct config_pair {
 typedef union YYSTYPE
 {
 /* Line 350 of yacc.c  */
-#line 31 "src/config-parser.y"
+#line 34 "src/config-parser.y"
 
 	char* string;
 	long  integer;
 	double decimal;
+	#if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L)
+	bool boolean;
+	#else
 	unsigned char boolean;
+	#endif
 	config_pair_t pair;
 
 
 /* Line 350 of yacc.c  */
-#line 165 "src/config-parser.c"
+#line 172 "src/config-parser.c"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
@@ -188,7 +195,7 @@ int config_parse ();
 /* Copy the second part of user declarations.  */
 
 /* Line 353 of yacc.c  */
-#line 192 "src/config-parser.c"
+#line 199 "src/config-parser.c"
 
 #ifdef short
 # undef short
@@ -480,8 +487,8 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    64,    64,   115,   121,   134,   148,   156,   164,   178,
-     194,   207,   220,   233
+       0,    71,    71,   122,   128,   141,   155,   163,   171,   185,
+     201,   214,   227,   240
 };
 #endif
 
@@ -1408,7 +1415,7 @@ yyreduce:
     {
         case 2:
 /* Line 1787 of yacc.c  */
-#line 64 "src/config-parser.y"
+#line 71 "src/config-parser.y"
     {
 												config_pair_t group1 = (yyvsp[(1) - (2)].pair);
 												config_pair_t group2 = (yyvsp[(2) - (2)].pair);
@@ -1464,7 +1471,7 @@ yyreduce:
 
   case 3:
 /* Line 1787 of yacc.c  */
-#line 115 "src/config-parser.y"
+#line 122 "src/config-parser.y"
     {
 												config_pair_t group = (yyvsp[(1) - (1)].pair);
 												(yyval.pair) = group;
@@ -1473,7 +1480,7 @@ yyreduce:
 
   case 4:
 /* Line 1787 of yacc.c  */
-#line 121 "src/config-parser.y"
+#line 128 "src/config-parser.y"
     { 
 												config_pair_t group = (yyvsp[(3) - (4)].pair);
 												group.name = (yyvsp[(1) - (4)].string);
@@ -1491,7 +1498,7 @@ yyreduce:
 
   case 5:
 /* Line 1787 of yacc.c  */
-#line 134 "src/config-parser.y"
+#line 141 "src/config-parser.y"
     { 
 												config_pair_t group;
 												group.name = (yyvsp[(1) - (3)].string);
@@ -1508,7 +1515,7 @@ yyreduce:
 
   case 6:
 /* Line 1787 of yacc.c  */
-#line 148 "src/config-parser.y"
+#line 155 "src/config-parser.y"
     { 
 												config_pair_t group = (yyvsp[(1) - (2)].pair);
 												tree_map_t* p_group = variant_pointer(group.value);
@@ -1521,7 +1528,7 @@ yyreduce:
 
   case 7:
 /* Line 1787 of yacc.c  */
-#line 156 "src/config-parser.y"
+#line 163 "src/config-parser.y"
     {
 												config_pair_t group1 = (yyvsp[(1) - (2)].pair);
 												config_pair_t group2 = (yyvsp[(2) - (2)].pair);
@@ -1534,7 +1541,7 @@ yyreduce:
 
   case 8:
 /* Line 1787 of yacc.c  */
-#line 164 "src/config-parser.y"
+#line 171 "src/config-parser.y"
     {
 												tree_map_t* p_new_group = tree_map_create_ex( (tree_map_element_function) group_item_destroy,
 																						  (tree_map_compare_function) group_item_compare,
@@ -1553,7 +1560,7 @@ yyreduce:
 
   case 9:
 /* Line 1787 of yacc.c  */
-#line 178 "src/config-parser.y"
+#line 185 "src/config-parser.y"
     {
 												tree_map_t* p_new_group = tree_map_create_ex( (tree_map_element_function) group_item_destroy,
 																						  (tree_map_compare_function) group_item_compare,
@@ -1571,7 +1578,7 @@ yyreduce:
 
   case 10:
 /* Line 1787 of yacc.c  */
-#line 194 "src/config-parser.y"
+#line 201 "src/config-parser.y"
     { 
 												config_pair_t pair;
 												pair.name  = (yyvsp[(1) - (3)].string);
@@ -1582,14 +1589,14 @@ yyreduce:
 												config_t* p_config = config_get_extra( scanner );
 												if( config_is_verbose(p_config) )
 												{
-													printf( "Read %s: \"%s\" \n", (yyvsp[(1) - (3)].string), (yyvsp[(3) - (3)].string) ); 
+													printf( "Read %s: \"%s\" \n", (yyvsp[(1) - (3)].string), (yyvsp[(3) - (3)].string) );
 												}
                                            }
     break;
 
   case 11:
 /* Line 1787 of yacc.c  */
-#line 207 "src/config-parser.y"
+#line 214 "src/config-parser.y"
     { 
 												config_pair_t pair;
 												pair.name  = (yyvsp[(1) - (3)].string);
@@ -1600,14 +1607,14 @@ yyreduce:
 												config_t* p_config = config_get_extra( scanner );
 												if( config_is_verbose(p_config) )
 												{
-													printf( "Read %s: %ld \n", (yyvsp[(1) - (3)].string), (yyvsp[(3) - (3)].integer) ); 
+													printf( "Read %s: %ld \n", (yyvsp[(1) - (3)].string), (yyvsp[(3) - (3)].integer) );
 												}
                                            }
     break;
 
   case 12:
 /* Line 1787 of yacc.c  */
-#line 220 "src/config-parser.y"
+#line 227 "src/config-parser.y"
     { 
 												config_pair_t pair;
 												pair.name  = (yyvsp[(1) - (3)].string);
@@ -1625,25 +1632,25 @@ yyreduce:
 
   case 13:
 /* Line 1787 of yacc.c  */
-#line 233 "src/config-parser.y"
+#line 240 "src/config-parser.y"
     { 
 												config_pair_t pair;
 												pair.name  = (yyvsp[(1) - (3)].string);
-												pair.value = variant_create( VARIANT_UNSIGNED_INTEGER );
-												variant_set_unsigned_integer( pair.value, (yyvsp[(3) - (3)].boolean) );
+												pair.value = variant_create( VARIANT_BOOLEAN );
+												variant_set_boolean( pair.value, (yyvsp[(3) - (3)].boolean) );
 												(yyval.pair) = pair;
 
 												config_t* p_config = config_get_extra( scanner );
 												if( config_is_verbose(p_config) )
 												{
-													printf( "Read %s: %d \n", (yyvsp[(1) - (3)].string), (yyvsp[(3) - (3)].boolean) ); 
+													printf( "Read %s: %s \n", (yyvsp[(1) - (3)].string), (yyvsp[(3) - (3)].boolean) ? "true" : "false" );
 												}
                                            }
     break;
 
 
 /* Line 1787 of yacc.c  */
-#line 1647 "src/config-parser.c"
+#line 1654 "src/config-parser.c"
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1873,7 +1880,7 @@ yyreturn:
 
 
 /* Line 2048 of yacc.c  */
-#line 247 "src/config-parser.y"
+#line 254 "src/config-parser.y"
 
 
 /*

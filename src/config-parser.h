@@ -77,17 +77,21 @@ typedef struct config_pair {
 typedef union YYSTYPE
 {
 /* Line 2049 of yacc.c  */
-#line 31 "src/config-parser.y"
+#line 34 "src/config-parser.y"
 
 	char* string;
 	long  integer;
 	double decimal;
+	#if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L)
+	bool boolean;
+	#else
 	unsigned char boolean;
+	#endif
 	config_pair_t pair;
 
 
 /* Line 2049 of yacc.c  */
-#line 91 "src/config-parser.h"
+#line 95 "src/config-parser.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
