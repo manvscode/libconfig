@@ -19,6 +19,9 @@ typedef struct config_pair {
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
+#if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L)
+#include <stdbool.h>
+#endif
 #include <assert.h>
 #include "config-private.h"
 #include "config-lexer.h"
@@ -32,7 +35,11 @@ extern void config_error( yyscan_t yyscanner, const char* error );
 	char* string;
 	long  integer;
 	double decimal;
+	#if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L)
+	bool boolean;
+	#else
 	unsigned char boolean;
+	#endif
 	config_pair_t pair;
 }
 
@@ -201,7 +208,7 @@ statement : TOK_NAME '=' TOK_STRING        {
 												config_t* p_config = config_get_extra( scanner );
 												if( config_is_verbose(p_config) )
 												{
-													printf( "Read %s: \"%s\" \n", $1, $3 ); 
+													printf( "Read %s: \"%s\" \n", $1, $3 );
 												}
                                            }
           | TOK_NAME '=' TOK_INTEGER       { 
@@ -214,7 +221,7 @@ statement : TOK_NAME '=' TOK_STRING        {
 												config_t* p_config = config_get_extra( scanner );
 												if( config_is_verbose(p_config) )
 												{
-													printf( "Read %s: %ld \n", $1, $3 ); 
+													printf( "Read %s: %ld \n", $1, $3 );
 												}
                                            }
           | TOK_NAME '=' TOK_DECIMAL       { 
@@ -233,14 +240,14 @@ statement : TOK_NAME '=' TOK_STRING        {
           | TOK_NAME '=' TOK_BOOLEAN       { 
 												config_pair_t pair;
 												pair.name  = $1;
-												pair.value = variant_create( VARIANT_UNSIGNED_INTEGER );
-												variant_set_unsigned_integer( pair.value, $3 );
+												pair.value = variant_create( VARIANT_BOOLEAN );
+												variant_set_boolean( pair.value, $3 );
 												$$ = pair;
 
 												config_t* p_config = config_get_extra( scanner );
 												if( config_is_verbose(p_config) )
 												{
-													printf( "Read %s: %d \n", $1, $3 ); 
+													printf( "Read %s: %s \n", $1, $3 ? "true" : "false" );
 												}
                                            }
           ;
