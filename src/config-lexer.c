@@ -1,3 +1,24 @@
+/*
+ * Copyright (C) 2013 Joseph A. Marrero.   http://www.manvscode.com/
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
 #line 2 "src/config-lexer.c"
 #line 6 "src/config-lexer.l"
 #include <stdio.h>
@@ -49,7 +70,7 @@ typedef void* yyscan_t;
 #if defined (__STDC_VERSION__) && __STDC_VERSION__ >= 199901L
 
 /* C99 says to define __STDC_LIMIT_MACROS before including stdint.h,
- * if you want the limit (max/min) macros for int types. 
+ * if you want the limit (max/min) macros for int types.
  */
 #ifndef __STDC_LIMIT_MACROS
 #define __STDC_LIMIT_MACROS 1
@@ -66,7 +87,7 @@ typedef uint32_t flex_uint32_t;
 typedef signed char flex_int8_t;
 typedef short int flex_int16_t;
 typedef int flex_int32_t;
-typedef unsigned char flex_uint8_t; 
+typedef unsigned char flex_uint8_t;
 typedef unsigned short int flex_uint16_t;
 typedef unsigned int flex_uint32_t;
 
@@ -196,7 +217,7 @@ typedef size_t yy_size_t;
 #define EOB_ACT_LAST_MATCH 2
 
     #define YY_LESS_LINENO(n)
-    
+
 /* Return all but the first "n" matched characters back to the input stream. */
 #define yyless(n) \
 	do \
@@ -253,7 +274,7 @@ struct yy_buffer_state
 
     int yy_bs_lineno; /**< The line count. */
     int yy_bs_column; /**< The column count. */
-    
+
 	/* Whether to try to fill the input buffer when we reach the
 	 * end of it.
 	 */
@@ -591,7 +612,7 @@ static int yy_init_globals (yyscan_t yyscanner );
     /* This must go here because YYSTYPE and YYLTYPE are included
      * from bison output in section 1.*/
     #    define yylval yyg->yylval_r
-    
+
 int config_lex_init (yyscan_t* scanner);
 
 int config_lex_init_extra (YY_EXTRA_TYPE user_defined,yyscan_t* scanner);
@@ -646,7 +667,7 @@ extern int config_wrap (yyscan_t yyscanner );
 #endif
 
     static void yyunput (int c,char *buf_ptr  ,yyscan_t yyscanner);
-    
+
 #ifndef yytext_ptr
 static void yy_flex_strncpy (char *,yyconst char *,int ,yyscan_t yyscanner);
 #endif
@@ -926,7 +947,7 @@ YY_RULE_SETUP
 case 7:
 YY_RULE_SETUP
 #line 42 "src/config-lexer.l"
-{ /* ignore comment text */ } 
+{ /* ignore comment text */ }
 	YY_BREAK
 case 8:
 /* rule 8 can match eol */
@@ -937,7 +958,7 @@ YY_RULE_SETUP
 case 9:
 YY_RULE_SETUP
 #line 44 "src/config-lexer.l"
-{ 
+{
 												YYSTYPE *lval = config_get_lval( yyscanner );
 												lval->string = strdup(yytext);
 												return TOK_NAME;
@@ -946,16 +967,16 @@ YY_RULE_SETUP
 case 10:
 YY_RULE_SETUP
 #line 49 "src/config-lexer.l"
-{ 
+{
 												YYSTYPE *lval = config_get_lval( yyscanner );
 												lval->integer = atol(yytext);
-												return TOK_INTEGER; 
+												return TOK_INTEGER;
                                             }
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
 #line 54 "src/config-lexer.l"
-{ 
+{
 												YYSTYPE *lval = config_get_lval( yyscanner );
 												lval->decimal = atof(yytext);
 												return TOK_DECIMAL;
@@ -964,8 +985,8 @@ YY_RULE_SETUP
 case 12:
 YY_RULE_SETUP
 #line 59 "src/config-lexer.l"
-{ 
-												unsigned char b = strcasecmp(yytext, "true") == 0 || strcmp(yytext, "1") == 0; 
+{
+												unsigned char b = strcasecmp(yytext, "true") == 0 || strcmp(yytext, "1") == 0;
 												YYSTYPE *lval = config_get_lval( yyscanner );
 												lval->boolean = b;
 												return TOK_BOOLEAN;
@@ -975,9 +996,9 @@ case 13:
 /* rule 13 can match eol */
 YY_RULE_SETUP
 #line 65 "src/config-lexer.l"
-{ 
+{
 												YYSTYPE *lval = config_get_lval( yyscanner );
-											
+
 												size_t len = strlen( yytext ) - 2; /* minus the quotes */
 												lval->string = (char*) malloc( len + 1 );
 												strncpy( lval->string, yytext + 1, len );
@@ -1499,7 +1520,7 @@ static void config__load_buffer_state  (yyscan_t yyscanner)
     YY_BUFFER_STATE config__create_buffer  (FILE * file, int  size , yyscan_t yyscanner)
 {
 	YY_BUFFER_STATE b;
-    
+
 	b = (YY_BUFFER_STATE) config_alloc(sizeof( struct yy_buffer_state ) ,yyscanner );
 	if ( ! b )
 		YY_FATAL_ERROR( "out of dynamic memory in config__create_buffer()" );
@@ -1565,7 +1586,7 @@ static void config__load_buffer_state  (yyscan_t yyscanner)
     }
 
         b->yy_is_interactive = 0;
-    
+
 	errno = oerrno;
 }
 
@@ -1671,9 +1692,9 @@ static void config_ensure_buffer_stack (yyscan_t yyscanner)
 								, yyscanner);
 		if ( ! yyg->yy_buffer_stack )
 			YY_FATAL_ERROR( "out of dynamic memory in config_ensure_buffer_stack()" );
-								  
+
 		memset(yyg->yy_buffer_stack, 0, num_to_alloc * sizeof(struct yy_buffer_state*));
-				
+
 		yyg->yy_buffer_stack_max = num_to_alloc;
 		yyg->yy_buffer_stack_top = 0;
 		return;
@@ -1702,12 +1723,12 @@ static void config_ensure_buffer_stack (yyscan_t yyscanner)
  * @param base the character buffer
  * @param size the size in bytes of the character buffer
  * @param yyscanner The scanner object.
- * @return the newly allocated buffer state object. 
+ * @return the newly allocated buffer state object.
  */
 YY_BUFFER_STATE config__scan_buffer  (char * base, yy_size_t  size , yyscan_t yyscanner)
 {
 	YY_BUFFER_STATE b;
-    
+
 	if ( size < 2 ||
 	     base[size-2] != YY_END_OF_BUFFER_CHAR ||
 	     base[size-1] != YY_END_OF_BUFFER_CHAR )
@@ -1743,7 +1764,7 @@ YY_BUFFER_STATE config__scan_buffer  (char * base, yy_size_t  size , yyscan_t yy
  */
 YY_BUFFER_STATE config__scan_string (yyconst char * yystr , yyscan_t yyscanner)
 {
-    
+
 	return config__scan_bytes(yystr,strlen(yystr) ,yyscanner);
 }
 
@@ -1760,7 +1781,7 @@ YY_BUFFER_STATE config__scan_bytes  (yyconst char * yybytes, yy_size_t  _yybytes
 	char *buf;
 	yy_size_t n;
 	int i;
-    
+
 	/* Get memory for full buffer, including space for trailing EOB's. */
 	n = _yybytes_len + 2;
 	buf = (char *) config_alloc(n ,yyscanner );
@@ -1828,10 +1849,10 @@ YY_EXTRA_TYPE config_get_extra  (yyscan_t yyscanner)
 int config_get_lineno  (yyscan_t yyscanner)
 {
     struct yyguts_t * yyg = (struct yyguts_t*)yyscanner;
-    
+
         if (! YY_CURRENT_BUFFER)
             return 0;
-    
+
     return yylineno;
 }
 
@@ -1841,10 +1862,10 @@ int config_get_lineno  (yyscan_t yyscanner)
 int config_get_column  (yyscan_t yyscanner)
 {
     struct yyguts_t * yyg = (struct yyguts_t*)yyscanner;
-    
+
         if (! YY_CURRENT_BUFFER)
             return 0;
-    
+
     return yycolumn;
 }
 
@@ -1906,7 +1927,7 @@ void config_set_lineno (int  line_number , yyscan_t yyscanner)
         /* lineno is only valid if an input buffer exists. */
         if (! YY_CURRENT_BUFFER )
            YY_FATAL_ERROR( "config_set_lineno called with no buffer" );
-    
+
     yylineno = line_number;
 }
 
@@ -1921,7 +1942,7 @@ void config_set_column (int  column_no , yyscan_t yyscanner)
         /* column is only valid if an input buffer exists. */
         if (! YY_CURRENT_BUFFER )
            YY_FATAL_ERROR( "config_set_column called with no buffer" );
-    
+
     yycolumn = column_no;
 }
 
@@ -2016,20 +2037,20 @@ int config_lex_init_extra(YY_EXTRA_TYPE yy_user_defined,yyscan_t* ptr_yy_globals
         errno = EINVAL;
         return 1;
     }
-	
+
     *ptr_yy_globals = (yyscan_t) config_alloc ( sizeof( struct yyguts_t ), &dummy_yyguts );
-	
+
     if (*ptr_yy_globals == NULL){
         errno = ENOMEM;
         return 1;
     }
-    
+
     /* By setting to 0xAA, we expose bugs in
     yy_init_globals. Leave at 0x00 for releases. */
     memset(*ptr_yy_globals,0x00,sizeof(struct yyguts_t));
-    
+
     config_set_extra (yy_user_defined, *ptr_yy_globals);
-    
+
     return yy_init_globals ( *ptr_yy_globals );
 }
 
