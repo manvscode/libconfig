@@ -14,41 +14,40 @@ Configuration files use curly braces to specify hierarchical grouping and relati
 A configuration statement is a key-value pair separated with a equal sign character.
 
 Here is an example:
-`
-/*
- *  Application Settings
- *
- *  All of the application settings go in here. 
- */
-settings {
-	locale = "en_US" // the language and locale 
-	default_table_size = 3019 /* default */
-	alpha = 1.2
-	beta  = 0.00121312
 
-	network {
-		host = "127.0.0.1"
-		port = 65436
-	}
-}
+    /*
+     *  Application Settings
+     *
+     *  All of the application settings go in here. 
+     */
+    settings {
+	    locale = "en_US" // the language and locale 
+	    default_table_size = 3019 /* default */
+	    alpha = 1.2
+	    beta  = 0.00121312
+    
+	    network {
+		    host = "127.0.0.1"
+		    port = 65436
+	    }
+    }
+    
+    debug {
+	    enable = true
+    }
+    
+    message {
+	    english = "Hello!"
+	    spanish = "¡Hola"
+	    german  = "Hallo!"
+	    chinese = "你好"
+	    french  = "Bonjour!"
+	    russian = "привет"
+    }
 
-debug {
-	enable = true
-}
-
-message {
-	english = "Hello!"
-	spanish = "¡Hola"
-	german  = "Hallo!"
-	chinese = "你好"
-	french  = "Bonjour!"
-	russian = "привет"
-}
-
-novelties {
-	text = "Blah Blah Blah"
-}
-`
+    novelties {
+	    text = "Blah Blah Blah"
+    }
 
 
 License
