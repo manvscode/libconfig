@@ -9,7 +9,7 @@
 
 int main( int argc, char* argv[] )
 {
-	config_t* p_config = config_create( "/home/joe/projects/libconfig/tests/test.cfg", FALSE );
+	config_t* p_config = config_create( "./tests/test.cfg", FALSE );
 
 	lc_variant_t* value = NULL;
 

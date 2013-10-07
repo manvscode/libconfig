@@ -74,6 +74,8 @@ config_t* config_create( const char* filename, boolean verbose )
 						(tree_map_element_function) group_item_destroy,
 						(tree_map_compare_function) group_item_compare,
 						malloc, free );
+		#else
+		p_config->groups  = NULL;
 		#endif
 		p_config->line    = 1;
 		p_config->verbose = verbose;
