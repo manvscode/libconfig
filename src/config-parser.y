@@ -122,6 +122,23 @@ groups : groups group                      {
        | group                             {
 												config_pair_t group = $1;
 												$$ = group;
+
+												config_t* p_config = config_get_extra( scanner );
+												lc_tree_map_t* main_group = config_main_group( p_config );
+
+												if( !main_group )
+												{
+													main_group = tree_map_create_ex( (tree_map_element_function) group_item_destroy,
+																							  (tree_map_compare_function) group_item_compare,
+																							   malloc, free );
+													config_set_main_group( p_config, main_group );
+												}
+
+												void* unused;
+												if( !tree_map_find( main_group, group.name, &unused ) )
+												{
+													tree_map_insert( main_group, group.name, group.value );
+												}
                                            }
        ;
 

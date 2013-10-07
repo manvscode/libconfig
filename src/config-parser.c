@@ -485,10 +485,10 @@ static const yytype_int8 yyrhs[] =
 };
 
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
-static const yytype_uint8 yyrline[] =
+static const yytype_uint16 yyrline[] =
 {
-       0,    71,    71,   122,   128,   141,   155,   163,   171,   185,
-     201,   214,   227,   240
+       0,    71,    71,   122,   145,   158,   172,   180,   188,   202,
+     218,   231,   244,   257
 };
 #endif
 
@@ -1475,12 +1475,29 @@ yyreduce:
     {
 												config_pair_t group = (yyvsp[(1) - (1)].pair);
 												(yyval.pair) = group;
+
+												config_t* p_config = config_get_extra( scanner );
+												lc_tree_map_t* main_group = config_main_group( p_config );
+
+												if( !main_group )
+												{
+													main_group = tree_map_create_ex( (tree_map_element_function) group_item_destroy,
+																							  (tree_map_compare_function) group_item_compare,
+																							   malloc, free );
+													config_set_main_group( p_config, main_group );
+												}
+
+												void* unused;
+												if( !tree_map_find( main_group, group.name, &unused ) )
+												{
+													tree_map_insert( main_group, group.name, group.value );
+												}
                                            }
     break;
 
   case 4:
 /* Line 1787 of yacc.c  */
-#line 128 "src/config-parser.y"
+#line 145 "src/config-parser.y"
     { 
 												config_pair_t group = (yyvsp[(3) - (4)].pair);
 												group.name = (yyvsp[(1) - (4)].string);
@@ -1498,7 +1515,7 @@ yyreduce:
 
   case 5:
 /* Line 1787 of yacc.c  */
-#line 141 "src/config-parser.y"
+#line 158 "src/config-parser.y"
     { 
 												config_pair_t group;
 												group.name = (yyvsp[(1) - (3)].string);
@@ -1515,7 +1532,7 @@ yyreduce:
 
   case 6:
 /* Line 1787 of yacc.c  */
-#line 155 "src/config-parser.y"
+#line 172 "src/config-parser.y"
     { 
 												config_pair_t group = (yyvsp[(1) - (2)].pair);
 												lc_tree_map_t* p_group = variant_pointer(group.value);
@@ -1528,7 +1545,7 @@ yyreduce:
 
   case 7:
 /* Line 1787 of yacc.c  */
-#line 163 "src/config-parser.y"
+#line 180 "src/config-parser.y"
     {
 												config_pair_t group1 = (yyvsp[(1) - (2)].pair);
 												config_pair_t group2 = (yyvsp[(2) - (2)].pair);
@@ -1541,7 +1558,7 @@ yyreduce:
 
   case 8:
 /* Line 1787 of yacc.c  */
-#line 171 "src/config-parser.y"
+#line 188 "src/config-parser.y"
     {
 												lc_tree_map_t* p_new_group = tree_map_create_ex( (tree_map_element_function) group_item_destroy,
 																						  (tree_map_compare_function) group_item_compare,
@@ -1560,7 +1577,7 @@ yyreduce:
 
   case 9:
 /* Line 1787 of yacc.c  */
-#line 185 "src/config-parser.y"
+#line 202 "src/config-parser.y"
     {
 												lc_tree_map_t* p_new_group = tree_map_create_ex( (tree_map_element_function) group_item_destroy,
 																						  (tree_map_compare_function) group_item_compare,
@@ -1578,7 +1595,7 @@ yyreduce:
 
   case 10:
 /* Line 1787 of yacc.c  */
-#line 201 "src/config-parser.y"
+#line 218 "src/config-parser.y"
     { 
 												config_pair_t pair;
 												pair.name  = (yyvsp[(1) - (3)].string);
@@ -1596,7 +1613,7 @@ yyreduce:
 
   case 11:
 /* Line 1787 of yacc.c  */
-#line 214 "src/config-parser.y"
+#line 231 "src/config-parser.y"
     { 
 												config_pair_t pair;
 												pair.name  = (yyvsp[(1) - (3)].string);
@@ -1614,7 +1631,7 @@ yyreduce:
 
   case 12:
 /* Line 1787 of yacc.c  */
-#line 227 "src/config-parser.y"
+#line 244 "src/config-parser.y"
     { 
 												config_pair_t pair;
 												pair.name  = (yyvsp[(1) - (3)].string);
@@ -1632,7 +1649,7 @@ yyreduce:
 
   case 13:
 /* Line 1787 of yacc.c  */
-#line 240 "src/config-parser.y"
+#line 257 "src/config-parser.y"
     { 
 												config_pair_t pair;
 												pair.name  = (yyvsp[(1) - (3)].string);
@@ -1650,7 +1667,7 @@ yyreduce:
 
 
 /* Line 1787 of yacc.c  */
-#line 1654 "src/config-parser.c"
+#line 1671 "src/config-parser.c"
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1880,7 +1897,7 @@ yyreturn:
 
 
 /* Line 2048 of yacc.c  */
-#line 254 "src/config-parser.y"
+#line 271 "src/config-parser.y"
 
 
 /*
