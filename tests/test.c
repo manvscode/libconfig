@@ -11,7 +11,7 @@ int main( int argc, char* argv[] )
 {
 	config_t* p_config = config_create( "/home/joe/projects/libconfig/tests/test.cfg", FALSE );
 
-	variant_t* value = NULL;
+	lc_variant_t* value = NULL;
 
 	printf( "%s %s %s %s %s %s\n",
 			variant_string(config_find(p_config, "message.english")),

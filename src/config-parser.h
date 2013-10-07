@@ -47,7 +47,7 @@ extern int config_debug;
 #include <libcollections/tree-map.h>
 typedef struct config_pair {
 	const char* name;
-	variant_t*  value;
+	lc_variant_t*  value;
 } config_pair_t;
 
 

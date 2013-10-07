@@ -124,7 +124,7 @@ extern int config_debug;
 #include <libcollections/tree-map.h>
 typedef struct config_pair {
 	const char* name;
-	variant_t*  value;
+	lc_variant_t*  value;
 } config_pair_t;
 
 
@@ -1421,7 +1421,7 @@ yyreduce:
 												config_pair_t group2 = (yyvsp[(2) - (2)].pair);
 
 												config_t* p_config = config_get_extra( scanner );
-												tree_map_t* main_group = config_main_group( p_config );
+												lc_tree_map_t* main_group = config_main_group( p_config );
 
 												if( !main_group )
 												{
@@ -1445,7 +1445,7 @@ yyreduce:
 												config_pair_t group1 = $1;
 												config_pair_t group2 = $2;
 
-												tree_map_t* p_new_group = tree_map_create_ex( (tree_map_element_function) group_item_destroy,
+												lc_tree_map_t* p_new_group = tree_map_create_ex( (tree_map_element_function) group_item_destroy,
 																						  (tree_map_compare_function) group_item_compare,
 																						   malloc, free );
 												tree_map_insert( p_new_group, group1.name, group1.value );
@@ -1462,7 +1462,7 @@ yyreduce:
 												config_pair_t group1 = $1;
 												config_pair_t group2 = $2;
 							
-												tree_map_t* p_group = variant_pointer(group1.value);
+												lc_tree_map_t* p_group = variant_pointer(group1.value);
 												tree_map_insert( p_group, group2.name, group2.value );
 												$$ = group1;
 												*/
@@ -1518,7 +1518,7 @@ yyreduce:
 #line 155 "src/config-parser.y"
     { 
 												config_pair_t group = (yyvsp[(1) - (2)].pair);
-												tree_map_t* p_group = variant_pointer(group.value);
+												lc_tree_map_t* p_group = variant_pointer(group.value);
 												assert( tree_map_size( p_group ) > 0 && tree_map_size(p_group) < 4096 );
 												tree_map_insert( p_group, (yyvsp[(2) - (2)].pair).name, (yyvsp[(2) - (2)].pair).value );
 												assert( tree_map_size( p_group ) > 0 && tree_map_size(p_group) < 4096 );
@@ -1532,7 +1532,7 @@ yyreduce:
     {
 												config_pair_t group1 = (yyvsp[(1) - (2)].pair);
 												config_pair_t group2 = (yyvsp[(2) - (2)].pair);
-												tree_map_t* p_group = variant_pointer(group1.value);
+												lc_tree_map_t* p_group = variant_pointer(group1.value);
 												tree_map_insert( p_group, group2.name, group2.value );
 												assert( tree_map_size( p_group ) > 0 && tree_map_size(p_group) < 4096 );
 												(yyval.pair) = group1;
@@ -1543,7 +1543,7 @@ yyreduce:
 /* Line 1787 of yacc.c  */
 #line 171 "src/config-parser.y"
     {
-												tree_map_t* p_new_group = tree_map_create_ex( (tree_map_element_function) group_item_destroy,
+												lc_tree_map_t* p_new_group = tree_map_create_ex( (tree_map_element_function) group_item_destroy,
 																						  (tree_map_compare_function) group_item_compare,
 																						   malloc, free );
 												tree_map_insert( p_new_group, (yyvsp[(1) - (1)].pair).name, (yyvsp[(1) - (1)].pair).value );
@@ -1562,7 +1562,7 @@ yyreduce:
 /* Line 1787 of yacc.c  */
 #line 185 "src/config-parser.y"
     {
-												tree_map_t* p_new_group = tree_map_create_ex( (tree_map_element_function) group_item_destroy,
+												lc_tree_map_t* p_new_group = tree_map_create_ex( (tree_map_element_function) group_item_destroy,
 																						  (tree_map_compare_function) group_item_compare,
 																						   malloc, free );
 												tree_map_insert( p_new_group, (yyvsp[(1) - (1)].pair).name, (yyvsp[(1) - (1)].pair).value );

@@ -10,7 +10,7 @@
 #include <libcollections/tree-map.h>
 typedef struct config_pair {
 	const char* name;
-	variant_t*  value;
+	lc_variant_t*  value;
 } config_pair_t;
 
 }
@@ -62,7 +62,7 @@ extern void config_error( yyscan_t yyscanner, const char* error );
 config : groups                            {
 												config_t* p_config = config_get_extra( scanner );
 												config_pair_t group = $1;
-												tree_map_t* main_group = variant_pointer( group.value );
+												lc_tree_map_t* main_group = variant_pointer( group.value );
 												config_set_main_group( p_config, main_group );
                                            }
        ;
@@ -73,7 +73,7 @@ groups : groups group                      {
 												config_pair_t group2 = $2;
 
 												config_t* p_config = config_get_extra( scanner );
-												tree_map_t* main_group = config_main_group( p_config );
+												lc_tree_map_t* main_group = config_main_group( p_config );
 
 												if( !main_group )
 												{
@@ -97,7 +97,7 @@ groups : groups group                      {
 												config_pair_t group1 = $1;
 												config_pair_t group2 = $2;
 
-												tree_map_t* p_new_group = tree_map_create_ex( (tree_map_element_function) group_item_destroy,
+												lc_tree_map_t* p_new_group = tree_map_create_ex( (tree_map_element_function) group_item_destroy,
 																						  (tree_map_compare_function) group_item_compare,
 																						   malloc, free );
 												tree_map_insert( p_new_group, group1.name, group1.value );
@@ -114,7 +114,7 @@ groups : groups group                      {
 												config_pair_t group1 = $1;
 												config_pair_t group2 = $2;
 							
-												tree_map_t* p_group = variant_pointer(group1.value);
+												lc_tree_map_t* p_group = variant_pointer(group1.value);
 												tree_map_insert( p_group, group2.name, group2.value );
 												$$ = group1;
 												*/
@@ -154,7 +154,7 @@ group : TOK_NAME '{' statements '}'        {
 
 statements : statements statement          { 
 												config_pair_t group = $1;
-												tree_map_t* p_group = variant_pointer(group.value);
+												lc_tree_map_t* p_group = variant_pointer(group.value);
 												assert( tree_map_size( p_group ) > 0 && tree_map_size(p_group) < 4096 );
 												tree_map_insert( p_group, $2.name, $2.value );
 												assert( tree_map_size( p_group ) > 0 && tree_map_size(p_group) < 4096 );
@@ -163,13 +163,13 @@ statements : statements statement          {
            | statements group              {
 												config_pair_t group1 = $1;
 												config_pair_t group2 = $2;
-												tree_map_t* p_group = variant_pointer(group1.value);
+												lc_tree_map_t* p_group = variant_pointer(group1.value);
 												tree_map_insert( p_group, group2.name, group2.value );
 												assert( tree_map_size( p_group ) > 0 && tree_map_size(p_group) < 4096 );
 												$$ = group1;
                                            }
            | statement                     {
-												tree_map_t* p_new_group = tree_map_create_ex( (tree_map_element_function) group_item_destroy,
+												lc_tree_map_t* p_new_group = tree_map_create_ex( (tree_map_element_function) group_item_destroy,
 																						  (tree_map_compare_function) group_item_compare,
 																						   malloc, free );
 												tree_map_insert( p_new_group, $1.name, $1.value );
@@ -183,7 +183,7 @@ statements : statements statement          {
 												$$ = group;	
                                            }
            | group                         {
-												tree_map_t* p_new_group = tree_map_create_ex( (tree_map_element_function) group_item_destroy,
+												lc_tree_map_t* p_new_group = tree_map_create_ex( (tree_map_element_function) group_item_destroy,
 																						  (tree_map_compare_function) group_item_compare,
 																						   malloc, free );
 												tree_map_insert( p_new_group, $1.name, $1.value );

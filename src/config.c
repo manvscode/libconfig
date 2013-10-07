@@ -15,12 +15,12 @@
 struct config {
 	boolean verbose;
 	unsigned int line;
-	tree_map_t* groups;
+	lc_tree_map_t* groups;
 };
 
 
 
-boolean group_item_destroy( const char* *p_key, variant_t *p_value )
+boolean group_item_destroy( char* p_key, lc_variant_t* p_value )
 {
 	free( p_key );
 
@@ -31,7 +31,7 @@ boolean group_item_destroy( const char* *p_key, variant_t *p_value )
 	}
 	else if( variant_is_pointer( p_value ) )
 	{
-		tree_map_t* p_group = (tree_map_t*) variant_pointer( p_value );
+		lc_tree_map_t* p_group = (lc_tree_map_t*) variant_pointer( p_value );
 		tree_map_destroy( p_group );
 	}
 
@@ -94,16 +94,16 @@ void config_destroy( config_t** p_config )
 	}
 }
 
-tree_map_t* config_main_group( const config_t* p_config )
+lc_tree_map_t* config_main_group( const config_t* p_config )
 {
 	assert( p_config );
 	return p_config->groups;
 }
 
-void config_set_main_group( config_t* p_config, const tree_map_t* group )
+void config_set_main_group( config_t* p_config, const lc_tree_map_t* group )
 {
 	assert( p_config );
-	p_config->groups = (tree_map_t*) group;
+	p_config->groups = (lc_tree_map_t*) group;
 }
 
 unsigned int config_current_line( config_t* p_config )
@@ -119,11 +119,11 @@ void config_increment_line( config_t* p_config )
 }
 
 // settings.network.host
-variant_t* config_find( config_t* p_config, const char* key )
+lc_variant_t* config_find( config_t* p_config, const char* key )
 {
-	tree_map_t* p_group = p_config->groups;
+	lc_tree_map_t* p_group = p_config->groups;
 	char key_copy[ 256 ] = { '\0' };
-	variant_t* p_result = NULL;
+	lc_variant_t* p_result = NULL;
 
 	strcpy( key_copy, key );
 
@@ -141,7 +141,7 @@ variant_t* config_find( config_t* p_config, const char* key )
 		{
 			if( variant_is_pointer( p_result ) )
 			{
-				p_group = (tree_map_t*) variant_pointer( p_result );
+				p_group = (lc_tree_map_t*) variant_pointer( p_result );
 				if( dot )
 				{
 					current_key = dot + 1; // skip over null terminator
@@ -173,7 +173,7 @@ void config_dump_tab( FILE* file, short indent )
 	}
 }
 
-void config_dump_group( FILE* file, short indent, const char* name, const tree_map_t* group )
+void config_dump_group( FILE* file, short indent, const char* name, const lc_tree_map_t* group )
 {
 	if( name )
 	{
@@ -181,16 +181,16 @@ void config_dump_group( FILE* file, short indent, const char* name, const tree_m
 		fprintf( file, "%s {\n", name );
 	}
 
-	for( tree_map_iterator_t itr = tree_map_begin( group );
+	for( lc_tree_map_iterator_t itr = tree_map_begin( group );
 	     itr != tree_map_end( );
 		 itr = tree_map_next( itr ) )
 	{
 		const char* name       = itr->key;
-		const variant_t* value = itr->value;
+		const lc_variant_t* value = itr->value;
 
 		switch( variant_type(value) )
 		{
-			case VARIANT_POINTER: /* tree_map_t* */
+			case VARIANT_POINTER: /* lc_tree_map_t* */
 				config_dump_group( file, indent + 1, name, variant_pointer(value) );
 				break;
 			case VARIANT_STRING:
@@ -246,60 +246,60 @@ void config_set_verbose( config_t* p_config, boolean v )
 boolean config_add_group( config_t* p_config, const char* name )
 {
 
-	tree_map_t* p_group = tree_map_create_ex( (tree_map_element_function) group_item_destroy,
+	lc_tree_map_t* p_group = tree_map_create_ex( (tree_map_element_function) group_item_destroy,
 	                                          (tree_map_compare_function) group_item_compare,
 	                                           malloc, free );
 
-	variant_t* p_variant = variant_create_pointer( );
+	lc_variant_t* p_variant = variant_create_pointer( );
 	variant_set_pointer( p_variant, p_group );
 
 	return config_add_setting( p_config->groups, name, p_variant );
 }
 
-boolean config_add_group_to_group( config_t* p_config, tree_map_t* p_group, const char* name )
+boolean config_add_group_to_group( config_t* p_config, lc_tree_map_t* p_group, const char* name )
 {
 
-	tree_map_t* p_new_group = tree_map_create_ex( (tree_map_element_function) group_item_destroy,
+	lc_tree_map_t* p_new_group = tree_map_create_ex( (tree_map_element_function) group_item_destroy,
 	                                          (tree_map_compare_function) group_item_compare,
 	                                           malloc, free );
 
-	variant_t* p_variant = variant_create_pointer( );
+	lc_variant_t* p_variant = variant_create_pointer( );
 	variant_set_pointer( p_variant, p_new_group );
 
 	return config_add_setting( p_group, name, p_variant );
 }
 
-boolean config_add_setting( tree_map_t* p_group, const char* name, const variant_t* p_variant )
+boolean config_add_setting( lc_tree_map_t* p_group, const char* name, const lc_variant_t* p_variant )
 {
 	const char* name_copy = strdup(name);
 	return tree_map_insert( p_group, name_copy, p_variant );
 }
 
-boolean config_add_string( tree_map_t* p_group, const char* name, const char* value )
+boolean config_add_string( lc_tree_map_t* p_group, const char* name, const char* value )
 {
-	variant_t* p_variant = variant_create_unsigned_integer( );
+	lc_variant_t* p_variant = variant_create_unsigned_integer( );
 	const char* value_copy = strdup(value);
 	variant_set_string( p_variant, value_copy );
 	return config_add_setting( p_group, name, p_variant );
 }
 
-boolean config_add_boolean( tree_map_t* p_group, const char* name, boolean value )
+boolean config_add_boolean( lc_tree_map_t* p_group, const char* name, boolean value )
 {
-	variant_t* p_variant = variant_create_unsigned_integer( );
+	lc_variant_t* p_variant = variant_create_unsigned_integer( );
 	variant_set_unsigned_integer( p_variant, value );
 	return config_add_setting( p_group, name, p_variant );
 }
 
-boolean config_add_integer( tree_map_t* p_group, const char* name, long value )
+boolean config_add_integer( lc_tree_map_t* p_group, const char* name, long value )
 {
-	variant_t* p_variant = variant_create_integer( );
+	lc_variant_t* p_variant = variant_create_integer( );
 	variant_set_integer( p_variant, value );
 	return config_add_setting( p_group, name, p_variant );
 }
 
-boolean config_add_decimal( tree_map_t* p_group, const char* name, double value )
+boolean config_add_decimal( lc_tree_map_t* p_group, const char* name, double value )
 {
-	variant_t* p_variant = variant_create_integer( );
+	lc_variant_t* p_variant = variant_create_integer( );
 	variant_set_decimal( p_variant, value );
 	return config_add_setting( p_group, name, p_variant );
 }
