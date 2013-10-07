@@ -21,7 +21,8 @@ AH_BOTTOM([
 
 DFLAGS="-D DEBUG "
 
-CFLAGS="-Wall -g -ggdb -O0 $DFLAGS -I/usr/local/include"
+#CFLAGS="-Wall -g -ggdb -O0 $DFLAGS -I/usr/local/include"
+CFLAGS="-Wall -O3 -I/usr/local/include"
 LDFLAGS="-lcollections"
 
 AM_PROG_AR
