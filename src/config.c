@@ -69,7 +69,7 @@ config_t* config_create( const char* filename, boolean verbose )
 
 	if( p_config )
 	{
-		#if 0
+		#if 1
 		p_config->groups = tree_map_create_ex(
 						(tree_map_element_function) group_item_destroy,
 						(tree_map_compare_function) group_item_compare,
@@ -180,6 +180,66 @@ lc_variant_t* config_find( config_t* p_config, const char* key )
 	}
 
 	return p_result;
+}
+
+const char* config_find_string( config_t* p_config, const char* key, const char* default_value )
+{
+	lc_variant_t* p_result = config_find( p_config, key );
+
+	if( p_result )
+	{
+		return variant_string( p_result );
+	}
+
+	return default_value;
+}
+
+long config_find_integer( config_t* p_config, const char* key, long default_value )
+{
+	lc_variant_t* p_result = config_find( p_config, key );
+
+	if( p_result )
+	{
+		return variant_integer( p_result );
+	}
+
+	return default_value;
+}
+
+unsigned long config_find_unsigned_integer( config_t* p_config, const char* key, unsigned long default_value )
+{
+	lc_variant_t* p_result = config_find( p_config, key );
+
+	if( p_result )
+	{
+		return variant_unsigned_integer( p_result );
+	}
+
+	return default_value;
+}
+
+double config_find_decimal( config_t* p_config, const char* key, double default_value )
+{
+	lc_variant_t* p_result = config_find( p_config, key );
+
+	if( p_result )
+	{
+		return variant_decimal( p_result );
+	}
+
+	return default_value;
+}
+
+boolean config_find_boolean( config_t* p_config, const char* key, boolean default_value )
+{
+	lc_variant_t* p_result = config_find( p_config, key );
+
+	if( p_result )
+	{
+		return variant_boolean( p_result );
+	}
+
+	return default_value;
 }
 
 void config_dump_tab( FILE* file, short indent )

@@ -6,34 +6,26 @@
 #include "../src/config.h"
 #endif
 
-
 int main( int argc, char* argv[] )
 {
 	config_t* p_config = config_create( "./tests/test.cfg", FALSE );
 
-	lc_variant_t* value = NULL;
 
 	printf( "%s %s %s %s %s %s\n",
-			variant_string(config_find(p_config, "message.english")),
-			variant_string(config_find(p_config, "message.spanish")),
-			variant_string(config_find(p_config, "message.french")),
-			variant_string(config_find(p_config, "message.german")),
-			variant_string(config_find(p_config, "message.chinese")),
-			variant_string(config_find(p_config, "message.russian"))
+			config_find_string(p_config, "message.english", "<uninitialized>"),
+			config_find_string(p_config, "message.spanish", "<uninitialized>"),
+			config_find_string(p_config, "message.french", "<uninitialized>"),
+			config_find_string(p_config, "message.german", "<uninitialized>"),
+			config_find_string(p_config, "message.chinese", "<uninitialized>"),
+			config_find_string(p_config, "message.russian", "<uninitialized>")
 	);
 	printf( "-----------------------------------------\n" );
-	value = config_find( p_config, "settings.locale" );
-	printf( "Locale: %s\n",  value ? variant_string(value) : "NULL" );
-	value = config_find( p_config, "settings.alpha" );
-	printf( "Alpha: %lf\n", value ? variant_decimal(value) : 0.0f );
-	value = config_find( p_config, "settings.beta" );
-	printf( "Beta: %lf\n", value ? variant_decimal(value) : 0.0f );
-	value = config_find( p_config, "settings.network.host" );
-	printf( "Host: %s\n", value ? variant_string(value) : "NULL" );
-	value = config_find( p_config, "settings.network.port" );
-	printf( "Port: %ld\n", value ? variant_integer(value) : 0L );
-	value = config_find( p_config, "debug.enable" );
-	printf( "Debug Enabled: %s\n", value ? (variant_unsigned_integer(value) == 0 ? "False" : "True") : "Unset" );
+	printf( "Locale: %s\n",  config_find_string(p_config, "settings.locale", "<uninitialized>") );
+	printf( "Alpha: %lf\n",  config_find_decimal(p_config, "settings.alpha", 100.0f) );
+	printf( "Beta: %lf\n",   config_find_decimal(p_config, "settings.beta", 200.0f) );
+	printf( "Host: %s\n",   config_find_string(p_config, "settings.network.host", "<uninitialized>") );
+	printf( "Port: %ld\n",   config_find_integer(p_config, "settings.network.port", 0L) );
+	printf( "Debug Enabled: %s\n",  config_find_boolean(p_config, "debug.enable", false) ? "True" : "False" );
 	printf( "-----------------------------------------\n" );
 
 	config_destroy( &p_config );
