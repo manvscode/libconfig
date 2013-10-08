@@ -351,7 +351,7 @@ extern int config_lex \
 #undef YY_DECL
 #endif
 
-#line 79 "src/config-lexer.l"
+#line 92 "src/config-lexer.l"
 
 
 #line 358 "src/config-lexer.h"

@@ -27,6 +27,9 @@ boolean        (true|false|True|False|TRUE|FALSE)
 name           [_a-zA-Z0-9]+
 string         \"(\\.|[^\\"])*\"
 
+color3         \#([0-9a-fA-F]{3}){1,2}
+color4         \#([0-9a-fA-F]{4}){1,2}
+
 line_comments  ("//"+.*)
 lcurly         "{"
 rcurly         "}"
@@ -46,10 +49,20 @@ equal          "="
 												lval->string = strdup(yytext);
 												return TOK_NAME;
                                             }
-{integer}                                   { 
+{integer}                                   {
 												YYSTYPE *lval = config_get_lval( yyscanner );
 												lval->integer = atol(yytext);
-												return TOK_INTEGER; 
+												return TOK_INTEGER;
+                                            }
+{color3}                                    {
+												YYSTYPE *lval = config_get_lval( yyscanner );
+												lval->integer = strtol(yytext + 1, NULL, 16); /* skip over hash char */
+												return TOK_INTEGER;
+                                            }
+{color4}                                    {
+												YYSTYPE *lval = config_get_lval( yyscanner );
+												lval->integer = strtol(yytext + 1, NULL, 16); /* skip over hash char */
+												return TOK_INTEGER;
                                             }
 {decimal}                                   { 
 												YYSTYPE *lval = config_get_lval( yyscanner );

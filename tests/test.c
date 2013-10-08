@@ -25,6 +25,10 @@ int main( int argc, char* argv[] )
 	printf( "Beta: %lf\n",   config_find_decimal(p_config, "settings.beta", 200.0f) );
 	printf( "Host: %s\n",   config_find_string(p_config, "settings.network.host", "<uninitialized>") );
 	printf( "Port: %ld\n",   config_find_integer(p_config, "settings.network.port", 0L) );
+	printf( "Red: #%06x\n",   (unsigned int) config_find_unsigned_integer(p_config, "settings.red", 0) );
+	printf( "Green: #%06x\n",   (unsigned int) config_find_unsigned_integer(p_config, "settings.green", 0) );
+	printf( "Blue: #%06x\n",   (unsigned int) config_find_unsigned_integer(p_config, "settings.blue", 0) );
+	printf( "Cyan + Alpha: #%08x\n",   (unsigned int) config_find_unsigned_integer(p_config, "settings.cyan_with_alpha", 0) );
 	printf( "Debug Enabled: %s\n",  config_find_boolean(p_config, "debug.enable", false) ? "True" : "False" );
 	printf( "-----------------------------------------\n" );
 
