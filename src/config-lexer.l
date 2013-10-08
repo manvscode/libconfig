@@ -1,6 +1,6 @@
 /* flex -F -nounistd -R -o config-lexer.c --prefix=config_  --header-file=config-lexer.h config-lexer.l */
 
-%option reentrant never-interactive bison-bridge nounistd 
+%option reentrant never-interactive bison-bridge nounistd noinput nounput
 
 %top{
 #include <stdio.h>
