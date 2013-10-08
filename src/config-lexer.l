@@ -56,7 +56,8 @@ equal          "="
                                             }
 {color3}                                    {
 												YYSTYPE *lval = config_get_lval( yyscanner );
-												lval->integer = strtol(yytext + 1, NULL, 16); /* skip over hash char */
+												long color = strtol(yytext + 1, NULL, 16); /* skip over hash char */
+												lval->integer = color << 8;
 												return TOK_INTEGER;
                                             }
 {color4}                                    {
