@@ -981,7 +981,7 @@ YY_RULE_SETUP
 												size_t len = strlen( yytext ) - 2; /* minus the quotes */
 												lval->string = (char*) malloc( len + 1 );
 												strncpy( lval->string, yytext + 1, len );
-												lval->string[ len + 1 ] = '\0';
+												lval->string[ len ] = '\0';
 												return TOK_STRING;
                                             }
 	YY_BREAK
