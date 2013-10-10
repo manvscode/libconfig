@@ -140,7 +140,7 @@ void config_increment_line( config_t* p_config )
 }
 
 // settings.network.host
-lc_variant_t* config_find( config_t* p_config, const char* key )
+lc_variant_t* config_find( const config_t* p_config, const char* key )
 {
 	lc_tree_map_t* p_group = p_config->groups;
 	char key_copy[ 256 ] = { '\0' };
@@ -185,7 +185,7 @@ lc_variant_t* config_find( config_t* p_config, const char* key )
 	return p_result;
 }
 
-const char* config_find_string( config_t* p_config, const char* key, const char* default_value )
+const char* config_find_string( const config_t* p_config, const char* key, const char* default_value )
 {
 	lc_variant_t* p_result = config_find( p_config, key );
 
@@ -197,7 +197,7 @@ const char* config_find_string( config_t* p_config, const char* key, const char*
 	return default_value;
 }
 
-long config_find_integer( config_t* p_config, const char* key, long default_value )
+long config_find_integer( const config_t* p_config, const char* key, long default_value )
 {
 	lc_variant_t* p_result = config_find( p_config, key );
 
@@ -209,7 +209,7 @@ long config_find_integer( config_t* p_config, const char* key, long default_valu
 	return default_value;
 }
 
-unsigned long config_find_unsigned_integer( config_t* p_config, const char* key, unsigned long default_value )
+unsigned long config_find_unsigned_integer( const config_t* p_config, const char* key, unsigned long default_value )
 {
 	lc_variant_t* p_result = config_find( p_config, key );
 
@@ -221,7 +221,7 @@ unsigned long config_find_unsigned_integer( config_t* p_config, const char* key,
 	return default_value;
 }
 
-double config_find_decimal( config_t* p_config, const char* key, double default_value )
+double config_find_decimal( const config_t* p_config, const char* key, double default_value )
 {
 	lc_variant_t* p_result = config_find( p_config, key );
 
@@ -233,7 +233,7 @@ double config_find_decimal( config_t* p_config, const char* key, double default_
 	return default_value;
 }
 
-boolean config_find_boolean( config_t* p_config, const char* key, boolean default_value )
+boolean config_find_boolean( const config_t* p_config, const char* key, boolean default_value )
 {
 	lc_variant_t* p_result = config_find( p_config, key );
 
@@ -311,7 +311,7 @@ void config_dump( FILE* file, const config_t* p_config )
 	config_dump_group( file, indent, NULL, p_config->groups );
 }
 
-boolean config_is_verbose( config_t* p_config )
+boolean config_is_verbose( const config_t* p_config )
 {
 	assert( p_config );
 	return p_config->verbose;

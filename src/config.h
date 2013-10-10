@@ -33,14 +33,14 @@ typedef struct config config_t;
 
 config_t*     config_create                ( const char* filename, boolean verbose );
 void          config_destroy               ( config_t** p_config );
-lc_variant_t* config_find                  ( config_t* p_config, const char* key );
-const char*   config_find_string           ( config_t* p_config, const char* key, const char* default_value );
-long          config_find_integer          ( config_t* p_config, const char* key, long default_value );
-unsigned long config_find_unsigned_integer ( config_t* p_config, const char* key, unsigned long default_value );
-double        config_find_decimal          ( config_t* p_config, const char* key, double default_value );
-boolean       config_find_boolean          ( config_t* p_config, const char* key, boolean default_value );
+lc_variant_t* config_find                  ( const config_t* p_config, const char* key );
+const char*   config_find_string           ( const config_t* p_config, const char* key, const char* default_value );
+long          config_find_integer          ( const config_t* p_config, const char* key, long default_value );
+unsigned long config_find_unsigned_integer ( const config_t* p_config, const char* key, unsigned long default_value );
+double        config_find_decimal          ( const config_t* p_config, const char* key, double default_value );
+boolean       config_find_boolean          ( const config_t* p_config, const char* key, boolean default_value );
 void          config_dump                  ( FILE* file, const config_t* p_config );
-boolean       config_is_verbose            ( config_t* p_config );
+boolean       config_is_verbose            ( const config_t* p_config );
 void          config_set_verbose           ( config_t* p_config, boolean v );
 
 #if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 201112L)
