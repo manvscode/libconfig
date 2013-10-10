@@ -40,18 +40,21 @@ boolean group_item_destroy( char* p_key, lc_variant_t* p_value )
 {
 	free( p_key );
 
-	if( variant_is_string( p_value ) )
+	if( p_value )
 	{
-		char* p_string = (char*) variant_string( p_value );
-		free( p_string );
-	}
-	else if( variant_is_pointer( p_value ) )
-	{
-		lc_tree_map_t* p_group = (lc_tree_map_t*) variant_pointer( p_value );
-		tree_map_destroy( p_group );
-	}
+		if( variant_is_string( p_value ) )
+		{
+			char* p_string = (char*) variant_string( p_value );
+			free( p_string );
+		}
+		else if( variant_is_pointer( p_value ) )
+		{
+			lc_tree_map_t* p_group = (lc_tree_map_t*) variant_pointer( p_value );
+			tree_map_destroy( p_group );
+		}
 
-	variant_destroy( p_value );
+		variant_destroy( p_value );
+	}
 
 	return TRUE;
 }
