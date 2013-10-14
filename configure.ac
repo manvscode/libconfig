@@ -1,3 +1,4 @@
+AC_PREREQ(2.67)
 AC_INIT([libconfig], [0.4], [manvscode@gmail.com], [libconfig], [http://www.manvscode.com/])
 AM_INIT_AUTOMAKE([-Wall -Werror foreign])
 
@@ -29,6 +30,15 @@ AM_PROG_AR
 LT_INIT([shared static])
 AC_PROG_LIBTOOL
 AM_PROG_LIBTOOL
+
+# -------------------------------------------------
+AC_ARG_ENABLE([tests],
+	[AS_HELP_STRING([--disable-tests], [Enable test programs.])],
+	[:],
+	[enable_tests=no])
+
+AM_CONDITIONAL([ENABLE_TESTS], [test "$enable_tests" = "yes"])
+# -------------------------------------------------
 
 
 
