@@ -6,7 +6,7 @@ AM_SILENT_RULES([yes])
 AC_CONFIG_HEADERS([src/libconfig-config.h])
 
 AC_PROG_CC
-AC_PROG_CC_C99
+AC_PROG_CC_STDC
 AC_C_INLINE
 AC_HEADER_STDC
 
@@ -20,11 +20,12 @@ AH_BOTTOM([
 ])
 
 
-DFLAGS="-D DEBUG "
+#DFLAGS="-D DEBUG "
+DFLAGS=""
 
 #CFLAGS="-Wall -g -ggdb -O0 $DFLAGS -I/usr/local/include"
-CFLAGS="-Wall -O3 -I/usr/local/include"
-LDFLAGS="-lcollections"
+CFLAGS="$CFLAGS "
+LDFLAGS="$LDFLAGS -lcollections "
 
 AM_PROG_AR
 LT_INIT([shared static])
