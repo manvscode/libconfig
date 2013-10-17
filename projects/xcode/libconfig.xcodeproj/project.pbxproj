@@ -1,0 +1,313 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		08F9B792180DCF7E00DC30C4 /* config-lexer.c in Sources */ = {isa = PBXBuildFile; fileRef = 08F9B788180DCF7E00DC30C4 /* config-lexer.c */; };
+		08F9B793180DCF7E00DC30C4 /* config-lexer.h in Headers */ = {isa = PBXBuildFile; fileRef = 08F9B789180DCF7E00DC30C4 /* config-lexer.h */; };
+		08F9B795180DCF7E00DC30C4 /* config-parser.c in Sources */ = {isa = PBXBuildFile; fileRef = 08F9B78B180DCF7E00DC30C4 /* config-parser.c */; };
+		08F9B796180DCF7E00DC30C4 /* config-parser.h in Headers */ = {isa = PBXBuildFile; fileRef = 08F9B78C180DCF7E00DC30C4 /* config-parser.h */; };
+		08F9B798180DCF7E00DC30C4 /* config-private.h in Headers */ = {isa = PBXBuildFile; fileRef = 08F9B78E180DCF7E00DC30C4 /* config-private.h */; };
+		08F9B799180DCF7E00DC30C4 /* config.c in Sources */ = {isa = PBXBuildFile; fileRef = 08F9B78F180DCF7E00DC30C4 /* config.c */; };
+		08F9B79A180DCF7E00DC30C4 /* config.h in Headers */ = {isa = PBXBuildFile; fileRef = 08F9B790180DCF7E00DC30C4 /* config.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		08F9B79B180DCF7E00DC30C4 /* libconfig-config.h in Headers */ = {isa = PBXBuildFile; fileRef = 08F9B791180DCF7E00DC30C4 /* libconfig-config.h */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		08C2848B180DD20400E96BF5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 08F9B79C180DCFAD00DC30C4 /* libcollections.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 08F9B721180DC9F300DC30C4;
+			remoteInfo = libcollections;
+		};
+		08F9B7A0180DCFAD00DC30C4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 08F9B79C180DCFAD00DC30C4 /* libcollections.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 08F9B722180DC9F300DC30C4;
+			remoteInfo = libcollections;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		08F9B780180DCF1E00DC30C4 /* libconfig.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libconfig.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		08F9B788180DCF7E00DC30C4 /* config-lexer.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = "config-lexer.c"; path = "../../src/config-lexer.c"; sourceTree = "<group>"; };
+		08F9B789180DCF7E00DC30C4 /* config-lexer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "config-lexer.h"; path = "../../src/config-lexer.h"; sourceTree = "<group>"; };
+		08F9B78B180DCF7E00DC30C4 /* config-parser.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = "config-parser.c"; path = "../../src/config-parser.c"; sourceTree = "<group>"; };
+		08F9B78C180DCF7E00DC30C4 /* config-parser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "config-parser.h"; path = "../../src/config-parser.h"; sourceTree = "<group>"; };
+		08F9B78E180DCF7E00DC30C4 /* config-private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "config-private.h"; path = "../../src/config-private.h"; sourceTree = "<group>"; };
+		08F9B78F180DCF7E00DC30C4 /* config.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = config.c; path = ../../src/config.c; sourceTree = "<group>"; };
+		08F9B790180DCF7E00DC30C4 /* config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = config.h; path = ../../src/config.h; sourceTree = "<group>"; };
+		08F9B791180DCF7E00DC30C4 /* libconfig-config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "libconfig-config.h"; path = "../../src/libconfig-config.h"; sourceTree = "<group>"; };
+		08F9B79C180DCFAD00DC30C4 /* libcollections.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = libcollections.xcodeproj; path = ../../../libcollections/projects/xcode/libcollections.xcodeproj; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		08F9B77D180DCF1E00DC30C4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		08F9B777180DCF1E00DC30C4 = {
+			isa = PBXGroup;
+			children = (
+				08F9B79C180DCFAD00DC30C4 /* libcollections.xcodeproj */,
+				08F9B787180DCF5B00DC30C4 /* src */,
+				08F9B781180DCF1E00DC30C4 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		08F9B781180DCF1E00DC30C4 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				08F9B780180DCF1E00DC30C4 /* libconfig.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		08F9B787180DCF5B00DC30C4 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				08F9B788180DCF7E00DC30C4 /* config-lexer.c */,
+				08F9B789180DCF7E00DC30C4 /* config-lexer.h */,
+				08F9B78B180DCF7E00DC30C4 /* config-parser.c */,
+				08F9B78C180DCF7E00DC30C4 /* config-parser.h */,
+				08F9B78E180DCF7E00DC30C4 /* config-private.h */,
+				08F9B78F180DCF7E00DC30C4 /* config.c */,
+				08F9B790180DCF7E00DC30C4 /* config.h */,
+				08F9B791180DCF7E00DC30C4 /* libconfig-config.h */,
+			);
+			name = src;
+			sourceTree = "<group>";
+		};
+		08F9B79D180DCFAD00DC30C4 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				08F9B7A1180DCFAD00DC30C4 /* libcollections.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		08F9B77E180DCF1E00DC30C4 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				08F9B79A180DCF7E00DC30C4 /* config.h in Headers */,
+				08F9B798180DCF7E00DC30C4 /* config-private.h in Headers */,
+				08F9B793180DCF7E00DC30C4 /* config-lexer.h in Headers */,
+				08F9B79B180DCF7E00DC30C4 /* libconfig-config.h in Headers */,
+				08F9B796180DCF7E00DC30C4 /* config-parser.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		08F9B77F180DCF1E00DC30C4 /* libconfig */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 08F9B784180DCF1E00DC30C4 /* Build configuration list for PBXNativeTarget "libconfig" */;
+			buildPhases = (
+				08F9B77C180DCF1E00DC30C4 /* Sources */,
+				08F9B77D180DCF1E00DC30C4 /* Frameworks */,
+				08F9B77E180DCF1E00DC30C4 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				08C2848C180DD20400E96BF5 /* PBXTargetDependency */,
+			);
+			name = libconfig;
+			productName = libconfig;
+			productReference = 08F9B780180DCF1E00DC30C4 /* libconfig.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		08F9B778180DCF1E00DC30C4 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0500;
+				ORGANIZATIONNAME = "Joe Marrero";
+			};
+			buildConfigurationList = 08F9B77B180DCF1E00DC30C4 /* Build configuration list for PBXProject "libconfig" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 08F9B777180DCF1E00DC30C4;
+			productRefGroup = 08F9B781180DCF1E00DC30C4 /* Products */;
+			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 08F9B79D180DCFAD00DC30C4 /* Products */;
+					ProjectRef = 08F9B79C180DCFAD00DC30C4 /* libcollections.xcodeproj */;
+				},
+			);
+			projectRoot = "";
+			targets = (
+				08F9B77F180DCF1E00DC30C4 /* libconfig */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		08F9B7A1180DCFAD00DC30C4 /* libcollections.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libcollections.a;
+			remoteRef = 08F9B7A0180DCFAD00DC30C4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
+/* Begin PBXSourcesBuildPhase section */
+		08F9B77C180DCF1E00DC30C4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				08F9B792180DCF7E00DC30C4 /* config-lexer.c in Sources */,
+				08F9B795180DCF7E00DC30C4 /* config-parser.c in Sources */,
+				08F9B799180DCF7E00DC30C4 /* config.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		08C2848C180DD20400E96BF5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = libcollections;
+			targetProxy = 08C2848B180DD20400E96BF5 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		08F9B782180DCF1E00DC30C4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		08F9B783180DCF1E00DC30C4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		08F9B785180DCF1E00DC30C4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_PREFIX = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = "include/$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		08F9B786180DCF1E00DC30C4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_PREFIX = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = "include/$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		08F9B77B180DCF1E00DC30C4 /* Build configuration list for PBXProject "libconfig" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				08F9B782180DCF1E00DC30C4 /* Debug */,
+				08F9B783180DCF1E00DC30C4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		08F9B784180DCF1E00DC30C4 /* Build configuration list for PBXNativeTarget "libconfig" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				08F9B785180DCF1E00DC30C4 /* Debug */,
+				08F9B786180DCF1E00DC30C4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 08F9B778180DCF1E00DC30C4 /* Project object */;
+}

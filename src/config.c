@@ -68,22 +68,29 @@ int group_item_compare( const char* p_key_left, const char* p_key_right )
 
 config_t* config_create( const char* filename, boolean verbose )
 {
+	FILE* file = fopen( filename, "r" );
+
+	if( !file )
+	{
+		goto failure;
+	}
+
 	config_t* p_config = (config_t*) malloc( sizeof(config_t) );
 
 	if( p_config )
 	{
 		#if 1
 		p_config->groups = tree_map_create_ex(
-						(tree_map_element_function) group_item_destroy,
-						(tree_map_compare_function) group_item_compare,
-						malloc, free );
+				(tree_map_element_function) group_item_destroy,
+				(tree_map_compare_function) group_item_compare,
+				malloc, free );
 		#else
 		p_config->groups  = NULL;
 		#endif
 		p_config->line    = 1;
 		p_config->verbose = verbose;
 
-		FILE* file = fopen( filename, "r" );
+
 		yyscan_t scanner;
 		config_lex_init( &scanner );
 		config_set_in( file, scanner );
@@ -100,7 +107,12 @@ config_t* config_create( const char* filename, boolean verbose )
 		config_lex_destroy( scanner );
 	}
 
+	fclose( file );
+
 	return p_config;
+
+failure:
+	return NULL;
 }
 
 void config_destroy( config_t** p_config )
