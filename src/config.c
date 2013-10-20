@@ -36,34 +36,6 @@ struct config {
 	lc_tree_map_t* groups;
 };
 
-boolean group_item_destroy( char* p_key, lc_variant_t* p_value )
-{
-	free( p_key );
-
-	if( p_value )
-	{
-		if( variant_is_string( p_value ) )
-		{
-			char* p_string = (char*) variant_string( p_value );
-			free( p_string );
-		}
-		else if( variant_is_pointer( p_value ) )
-		{
-			lc_tree_map_t* p_group = (lc_tree_map_t*) variant_pointer( p_value );
-			tree_map_destroy( p_group );
-		}
-
-		variant_destroy( p_value );
-	}
-
-	return TRUE;
-}
-
-int group_item_compare( const char* p_key_left, const char* p_key_right )
-{
-	return strcmp( p_key_left, p_key_right );
-}
-
 
 
 config_t* config_create( const char* filename, boolean verbose )
@@ -75,7 +47,7 @@ config_t* config_create( const char* filename, boolean verbose )
 		goto failure;
 	}
 
-	config_t* p_config = (config_t*) malloc( sizeof(config_t) );
+	config_t* p_config = malloc( sizeof(config_t) );
 
 	if( p_config )
 	{
@@ -397,3 +369,30 @@ boolean config_add_decimal( lc_tree_map_t* p_group, const char* name, double val
 	return config_add_setting( p_group, name, p_variant );
 }
 
+boolean group_item_destroy( char* p_key, lc_variant_t* p_value )
+{
+	free( p_key );
+
+	if( p_value )
+	{
+		if( variant_is_string( p_value ) )
+		{
+			char* p_string = (char*) variant_string( p_value );
+			free( p_string );
+		}
+		else if( variant_is_pointer( p_value ) )
+		{
+			lc_tree_map_t* p_group = (lc_tree_map_t*) variant_pointer( p_value );
+			tree_map_destroy( p_group );
+		}
+
+		variant_destroy( p_value );
+	}
+
+	return TRUE;
+}
+
+int group_item_compare( const char* p_key_left, const char* p_key_right )
+{
+	return strcmp( p_key_left, p_key_right );
+}
