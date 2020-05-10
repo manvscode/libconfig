@@ -1,0 +1,12 @@
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+libdir=@libdir@
+includedir=@includedir@
+
+Name: @PACKAGE_NAME@
+Description: A library for managing configuration.
+URL: @PACKAGE_URL@
+Version: @PACKAGE_VERSION@
+Requires:
+Libs: -l:lib@PACKAGE_NAME@.a -L${libdir}
+Cflags: -I${includedir}/@PACKAGE_NAME@-@PACKAGE_VERSION@

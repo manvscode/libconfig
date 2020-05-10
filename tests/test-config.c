@@ -1,14 +1,11 @@
 #include <stdio.h>
+#include <stdbool.h>
 #include <assert.h>
-#if 0
-#include <libconfig/config.h>
-#else
-#include "../src/config.h"
-#endif
+#include <config.h>
 
 int main( int argc, char* argv[] )
 {
-	config_t* p_config = config_create( "./tests/test.cfg", FALSE );
+	config_t* p_config = config_create( "./tests/test.cfg", false );
 
 
 	printf( "%s %s %s %s %s %s\n",

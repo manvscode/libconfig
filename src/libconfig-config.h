@@ -36,8 +36,7 @@
 /* Define to 1 if you have the <unistd.h> header file. */
 #define HAVE_UNISTD_H 1
 
-/* Define to the sub-directory in which libtool stores uninstalled libraries.
-   */
+/* Define to the sub-directory where libtool stores uninstalled libraries. */
 #define LT_OBJDIR ".libs/"
 
 /* Name of package */
@@ -47,10 +46,10 @@
 #define PACKAGE_BUGREPORT "manvscode@gmail.com"
 
 /* Define to the full name of this package. */
-#define PACKAGE_NAME "libconfig"
+#define PACKAGE_NAME "config"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "libconfig 0.4"
+#define PACKAGE_STRING "config 0.4"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "libconfig"
